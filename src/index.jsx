@@ -7,7 +7,12 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 const BASE_URI = "httl://localhost:8080/"
 
 const router = createBrowserRouter([
-
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <Error  />,
+    children: [],
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
