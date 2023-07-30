@@ -1,0 +1,2 @@
+Ovde idu komponente, svaka u svoj folder, zajedno sa specificnim podkomponentama koje 
+se ne koriste nigde drugde.

@@ -1,0 +1,2 @@
+Utility funkcije - obrada texta, tokena... Sve sto moze da se izdvoji, pa da se posle po potrebi poziva 
+iz razlicitih komponenti.
