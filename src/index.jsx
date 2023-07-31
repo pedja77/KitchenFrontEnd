@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Dashboard from "./components/dashboard/Dashboard.jsx";
 
 const BASE_URI = "httl://localhost:8080/";
 
@@ -15,8 +16,8 @@ const router = createBrowserRouter([
       {
         element: <Dashboard />,
         path: "/admin",
-        loader: async ({ params }) => {},
-        action: async ({ params, request }) => {},
+        // loader: async ({ params }) => {},
+        // action: async ({ params, request }) => {},
       },
     ],
   },
