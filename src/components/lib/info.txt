@@ -1,0 +1,2 @@
+Bibloteka reusabilnih komponenti, tj. komponenti koje su "univerzalne" i mogu se koristiti u vise 
+razlicitih komponenti.
