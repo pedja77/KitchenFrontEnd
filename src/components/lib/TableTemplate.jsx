@@ -34,7 +34,7 @@ const TableTemplate = ({ props }) => {
                 <TableCell key={window.crypto.randomUUID()}>{th}</TableCell>
               ))}
               {getUserRole() === "ADMINISTRATOR" && (
-                <TableCell align="right">Akcija</TableCell>
+                <TableCell align="right">Action</TableCell>
               )}
             </TableRow>
           </TableHead>
@@ -44,7 +44,7 @@ const TableTemplate = ({ props }) => {
                 {props.tdConfig.map((e) => (
                   <TableCell key={window.crypto.randomUUID()}>{t[e]}</TableCell>
                 ))}
-                {getUserRole() === "ROLE_ADMIN" && (
+                {getUserRole() === "ADMINISTRATOR" && (
                   <TableCell align="right">
                     <Tooltip title="Obriši">
                       <IconButton

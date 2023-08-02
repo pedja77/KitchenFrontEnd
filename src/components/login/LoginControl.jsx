@@ -12,7 +12,13 @@ import {
   Typography,
 } from "@mui/material";
 import App from "../../App";
-import { getUsername } from "../../utils/token";
+import { getUserRole, getUsername } from "../../utils/token";
+
+const ROLE_PATH_MAP = new Map([
+  ['ADMINISTRATOR', '/admin'],
+  ['REGULARUSER', '/user'],
+  ['COOK', '/cook']
+]);
 
 export const LoginControl = ({ safePath, defaultPath, isInToolbar }) => {
   const { user, login, logout } = useContext(UserContext);
@@ -33,12 +39,14 @@ export const LoginControl = ({ safePath, defaultPath, isInToolbar }) => {
   const handleLogin = async () => {
     // e.preventDefault();
     const u = await login(username, password);
+    console.log(u);
     if (u === null) {
       setError(true);
     } else {
       setError(false);
       setOpen(false);
-      nav(defaultPath); // hardcoded za probu bea ovoga fn primi defaultPath ali ga nekako resetuje na "/"
+      console.log(ROLE_PATH_MAP.get(u.role));
+      nav(ROLE_PATH_MAP.get(u.role)); // hardcoded za probu bea ovoga fn primi defaultPath ali ga nekako resetuje na "/"
       
     }
   };

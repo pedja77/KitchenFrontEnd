@@ -23,8 +23,8 @@ export const useLogin = () => {
           localStorage.setItem("user", JSON.stringify(newUser));
           return newUser;
         } else {
-          // setUser(null);
-          // localStorage.setItem("user", JSON.stringify(newUser));
+          setUser(null); // bilo koment
+          localStorage.setItem("user", JSON.stringify(newUser)); // bilo koment
           return null;
         }
       },

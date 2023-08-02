@@ -11,6 +11,8 @@ import Cooks from "./components/cook/Cooks.jsx";
 import LimitingFactors from "./components/limiting_factor/LimitingFactors.jsx";
 import Users from "./components/user/Users.jsx";
 import Recipes from "./components/recipe/Recipes.jsx";
+import CookDashboard from "./components/cook/CookDashboard.jsx";
+import UserDashboard from "./components/user/UserDashboard.jsx";
 
 const BASE_URI = "httl://localhost:8080/";
 
@@ -56,7 +58,16 @@ const router = createBrowserRouter([
           }
         ]
       },
-      
+      {
+        path: "/user",
+        element: <UserDashboard />,
+        children: [],
+      },
+      {
+        path: "/cook",
+        element: <CookDashboard />,
+        children: [],
+      }
     ],
   },
 ]);
