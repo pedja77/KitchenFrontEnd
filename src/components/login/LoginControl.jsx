@@ -38,7 +38,7 @@ export const LoginControl = ({ safePath, defaultPath, isInToolbar }) => {
     } else {
       setError(false);
       setOpen(false);
-      nav("/subjects"); // hardcoded za probu bea ovoga fn primi defaultPath ali ga nekako resetuje na "/"
+      nav(defaultPath); // hardcoded za probu bea ovoga fn primi defaultPath ali ga nekako resetuje na "/"
       
     }
   };

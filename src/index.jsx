@@ -3,6 +3,14 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Dashboard from "./components/admin/Dashboard.jsx";
+import { checkResponse } from "./utils/responseChecker.js";
+import { getResource } from './utils/paths.js';
+import Ingredients from "./components/ingredient/Ingredients.jsx";
+import Cooks from "./components/cook/Cooks.jsx";
+import LimitingFactors from "./components/limiting_factor/LimitingFactors.jsx";
+import Users from "./components/user/Users.jsx";
+import Recipes from "./components/recipe/Recipes.jsx";
 
 const BASE_URI = "httl://localhost:8080/";
 
@@ -15,9 +23,40 @@ const router = createBrowserRouter([
       {
         element: <Dashboard />,
         path: "/admin",
-        loader: async ({ params }) => {},
-        action: async ({ params, request }) => {},
+        // loader: async ({ params }) => {},
+        // action: async ({ params, request }) => {},
+        children: [
+          {
+            element: <Ingredients />,
+            path: "/admin/ingredients",
+            loader: async ({params}) => {
+              console.log("Hello from Ingredients loader.");
+              const response = await getResource(`http://localhost:8080/api/v1/project/ingredient/allIngredients`);
+              checkResponse(response);
+              const ing = await response.json();
+              console.log(ing);
+              return [ing];
+            }
+          },
+          {
+            element: <Users />,
+            path: "/admin/users",
+          },
+          {
+            element: <Cooks />,
+            path: "/admin/cooks",
+          },
+          {
+            element: <Recipes />,
+            path: "/admin/recipes",
+          },
+          {
+            element: <LimitingFactors />,
+            path: "/admin/limiting-factors"
+          }
+        ]
       },
+      
     ],
   },
 ]);
