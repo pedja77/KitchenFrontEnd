@@ -1,5 +1,5 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Users from "../user/Users";
 import Cooks from "../cook/Cooks";
 import Recipes from "../recipe/Recipes";
@@ -9,7 +9,12 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("tab index", currentTabIndex);
+    navigate("/admin/users");
+  }, []);
 
   const handleChange = (e, tabIndex) => {
     console.log(tabIndex);
