@@ -38,7 +38,8 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useLogin } from "./hooks/useLogin";
 import LoginControl from "./components/login/LoginControl.jsx";
-// import Welcome from "./components/Welcome";
+
+import Home from "./components/home/Home";
 
 // import { ThemeProvider } from 'styled-components';
 /*
@@ -216,6 +217,7 @@ function App() {
             <DrawerHeader />
             <Outlet />
             {/* {user === null && <Welcome />} */}
+            {user === null && <Home />}
           </Main>
         </Box>
       </UserContext.Provider>
