@@ -33,16 +33,16 @@ const TableTemplate = ({ props }) => {
               {props.tableHeaders.map((th, i) => (
                 <TableCell key={window.crypto.randomUUID()}>{th}</TableCell>
               ))}
-              {/* {getUserRole() === "ROLE_ADMIN" && (
+              {getUserRole() === "ADMINISTRATOR" && (
                 <TableCell align="right">Akcija</TableCell>
-              )} */}
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {props.tableData.map((t) => (
+            {props.tableData.map((t) => (
               <TableRow key={t[props.tdConfig[0]]}>
                 {props.tdConfig.map((e) => (
-                  <TableCell key={t[e]}>{t[e]}</TableCell>
+                  <TableCell key={window.crypto.randomUUID()}>{t[e]}</TableCell>
                 ))}
                 {getUserRole() === "ROLE_ADMIN" && (
                   <TableCell align="right">
@@ -68,7 +68,7 @@ const TableTemplate = ({ props }) => {
                   </TableCell>
                 )}
               </TableRow>
-            ))} */}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

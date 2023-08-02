@@ -5,9 +5,11 @@ import Cooks from "../cook/Cooks";
 import Recipes from "../recipe/Recipes";
 import Ingredients from "../ingredient/Ingredients";
 import LimitingFactors from "../limiting_factor/LimitingFactors";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
+  // const navigate = useNavigate();
 
   const handleChange = (e, tabIndex) => {
     console.log(tabIndex);
@@ -23,20 +25,20 @@ const Dashboard = () => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Users"  />
-          <Tab label="Cooks"  />
-          <Tab label="Recipes" />
-          <Tab label="Ingredients" />
-          <Tab label="Limiting Factors" />
+          <Tab label="Users"  component={NavLink} to="/admin/users"/>
+          <Tab label="Cooks"  component={NavLink} to="/admin/cooks"/>
+          <Tab label="Recipes" component={NavLink} to="/admin/recipes"/>
+          <Tab label="Ingredients" component={NavLink} to="/admin/ingredients"/>
+          <Tab label="Limiting Factors" component={NavLink} to="/admin/limiting-factors"/>
         </Tabs>
       </Box>
 
-      {currentTabIndex === 0 && <Users />}
+      {/* {currentTabIndex === 0 && <Users />}
       {currentTabIndex === 1 && <Cooks />}
       {currentTabIndex === 2 && <Recipes />}
       {currentTabIndex === 3 && <Ingredients />}
-      {currentTabIndex === 4 && <LimitingFactors />}
-     
+      {currentTabIndex === 4 && <LimitingFactors />} */}
+     <Outlet />
     </>
   );
 };

@@ -158,7 +158,7 @@ function App() {
                 Hell's Kitchen
               </Typography>
               <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <LoginControl safePath="/" defaultPath="/subjects" isInToolbar={true}/>
+              <LoginControl safePath="/" defaultPath="/" isInToolbar={true}/>
                 <FormGroup sx={{marginLeft: 3}}>
                   <FormControlLabel
                     control={
