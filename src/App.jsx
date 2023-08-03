@@ -3,7 +3,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import {
   Box,
   Button,
@@ -99,6 +99,7 @@ function App() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [isDarkMode, setDarkMode] = useState(false);
   const theme = useTheme();
+  const location = useLocation();
 
   const [user, login, logout] = useLogin();
 
@@ -136,6 +137,7 @@ function App() {
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      {console.log("location", location)}
       <UserContext.Provider value={{ user, login, logout }}>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
@@ -216,8 +218,8 @@ function App() {
           <Main open={openDrawer}>
             <DrawerHeader />
             <Outlet />
-            {/* {user === null && <Welcome />} */}
-            {user === null && <Home />}
+            {/* Prikazujemo Home komponentu samo kad smo na ruti koja se zove "/" */}
+            {location.pathname === "/" && <Home />}
           </Main>
         </Box>
       </UserContext.Provider>
