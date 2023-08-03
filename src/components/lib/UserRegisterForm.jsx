@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useFetcher, useLoaderData, useNavigate } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   isFormValid,
   validateFirstName,
@@ -17,7 +17,7 @@ import {
   validateUsername,
   validateEmail,
   validatePassword,
-  validateConfirmedPassword
+  validateConfirmedPassword,
 } from "../../utils/validation";
 import ValidatedTextField from "../lib/ValidatedTextField";
 import AddNewButtons from "../lib/AddNewButtons";
@@ -28,56 +28,64 @@ const ValidationIndex = {
   username: validateUsername,
   email: validateEmail,
   password: validatePassword,
-  confirmedPassword: validateConfirmedPassword
+  confirmedPassword: validateConfirmedPassword,
 };
 
 const registrationReducer = (draft, action) => {
   switch (action.type) {
     case "input_changed": {
-      draft.newUser[action.name] = action.value;
+      draft.user[action.name] = action.value;
       break;
     }
-    // case "remove_item": {
-    //   const index = draft.subject[action.collection].findIndex(
-    //     (c) => c.id === action.item.id
-    //   );
-    //   if (index !== -1) {
-    //     draft.subject[action.collection].splice(index, 1);
-    //   }
-    //   break;
-    // }
-    // case "set_new_option": {
-    //   draft[action.optionType] = action.option;
-    //   break;
-    // }
-    // case "add_new_item": {
-    //   draft.subject[action.collection].push(draft[action.item]);
-    //   draft[action.item] = null;
-    //   break;
-    // }
     case "reset_form": {
-      draft.subject = action.subject;
+      draft.user = action.user;
       draft.isFormValid = false;
       draft.errors = {};
       break;
     }
-    // case "grade_changed": {
-    //   console.log("students_by_grade_changed");
-    //   draft.studentsByGrade = action.data;
-    //   draft.subject.students = [];
-    //   break;
-    // }
     case "validate": {
-      draft.errors[action.key] = ValidationIndex[action.key](
-        draft.newUser[action.key]
-      );
+      if (action.key === "confirmedPassword") {
+        draft.errors[action.key] = ValidationIndex[action.key](
+          draft.user[action.key],
+          draft.user.password
+        );
+      } else if (action.key === "username") {
+        draft.errors[action.key] = ValidationIndex[action.key](
+          draft.user[action.key],
+          draft.usernames
+        );
+      } else if (action.key === "password") {
+        draft.errors[action.key] = ValidationIndex[action.key](
+          draft.user[action.key],
+          draft.password
+        );
+      } else if (action.key === "firstName") {
+        draft.errors[action.key] = ValidationIndex[action.key](
+          draft.user[action.key],
+          draft.firstName
+        );
+      } else if (action.key === "lastName") {
+        draft.errors[action.key] = ValidationIndex[action.key](
+          draft.user[action.key],
+          draft.lastName
+        );
+      } else if (action.key === "email") {
+        draft.errors[action.key] = ValidationIndex[action.key](
+          draft.user[action.key],
+          draft.email
+        );
+      } else {
+        draft.errors[action.key] = ValidationIndex[action.key](
+          draft.user[action.key]
+        );
+      }
       draft.isFormValid = isFormValid(draft.errors, [
         "firstName",
         "lastName",
         "email",
         "username",
         "password",
-        "confirmedPassword"
+        "confirmedPassword",
       ]);
       break;
     }
@@ -92,49 +100,30 @@ const UserRegisterForm = () => {
   // const fetcher = useFetcher();
   const usernames = useLoaderData();
 
+  const [newUser, setNewUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmedPassword: "",
+    role: "REGULARUSER",
+    username: "",
+  });
+
   const [state, dispatch] = useImmerReducer(registrationReducer, {
-    newUser: {
-      username: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-    },
+    user: structuredClone(newUser),
     errors: {},
     isFormValid: false,
+    usernames,
   });
 
   // usePropChange(state.subject.grade, dispatch, "grade_changed");
 
-  useEffect(() => {
-    if (fetcher.data) {
-      nav("/");
-    }
-  }, [fetcher.data]);
-
-  // const handleRemoveItem = (e, item, collection) => {
-  //   dispatch({
-  //     type: "remove_item",
-  //     item,
-  //     collection,
-  //   });
-  // };
-
-  // const handleSetNewOption = (e, v, optionType) => {
-  //   dispatch({
-  //     type: "set_new_option",
-  //     option: v,
-  //     optionType,
-  //   });
-  // };
-
-  // const handleAddNewItem = (item, collection) => {
-  //   dispatch({
-  //     type: "add_new_item",
-  //     item,
-  //     collection,
-  //   });
-  // };
+  // useEffect(() => {
+  //   if (fetcher.data) {
+  //     nav("/");
+  //   }
+  // }, [fetcher.data]);
 
   const handleInputChanged = (e) => {
     dispatch({
@@ -147,14 +136,7 @@ const UserRegisterForm = () => {
   const onResetClick = () =>
     dispatch({
       type: "reset_form",
-      subject: {
-        usernameame: "",
-        password: "",
-        confirmedPassword: "",
-        firstName: "",
-        lastName: "",
-        email: "",
-      },
+      user: structuredClone(newUser)
     });
 
   const onSaveClick = () => {
@@ -196,7 +178,7 @@ const UserRegisterForm = () => {
             label={"First name"}
             type={"text"}
             required
-            value={state.newUser.firstName}
+            value={state.user.firstName}
             {...validationContext}
           />
 
@@ -205,7 +187,7 @@ const UserRegisterForm = () => {
             label={"Last name"}
             type={"text"}
             required
-            value={state.newUser.lastName}
+            value={state.user.lastName}
             {...validationContext}
           />
 
@@ -214,7 +196,7 @@ const UserRegisterForm = () => {
             label={"Email"}
             type={"email"}
             required
-            value={state.newUser.email}
+            value={state.user.email}
             {...validationContext}
           />
 
@@ -223,7 +205,7 @@ const UserRegisterForm = () => {
             label={"username"}
             type={"text"}
             required
-            value={state.newUser.username}
+            value={state.user.username}
             {...validationContext}
           />
 
@@ -232,7 +214,7 @@ const UserRegisterForm = () => {
             label={"Password"}
             type={"password"}
             required
-            value={state.newUser.password}
+            value={state.user.password}
             {...validationContext}
           />
 
@@ -241,7 +223,7 @@ const UserRegisterForm = () => {
             label={"Confirm password"}
             type={"password"}
             required
-            value={state.newUser.confirmedPassword}
+            value={state.user.confirmedPassword}
             {...validationContext}
           />
 
