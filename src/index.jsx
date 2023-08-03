@@ -13,6 +13,7 @@ import Users from "./components/user/Users.jsx";
 import Recipes from "./components/recipe/Recipes.jsx";
 import CookDashboard from "./components/cook/CookDashboard.jsx";
 import UserDashboard from "./components/user/UserDashboard.jsx";
+import UserRegisterForm from "./components/lib/UserRegisterForm.jsx";
 
 const BASE_URI = "httl://localhost:8080/";
 
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <Error />,
     children: [
+      {
+        path: "/register",
+        element: <UserRegisterForm />,
+        loader: async ({params}) => {
+          console.log("Hello from UserRegisterForm loader");
+          // const response = getResource
+        }
+      },
       {
         element: <Dashboard />,
         path: "/admin",
