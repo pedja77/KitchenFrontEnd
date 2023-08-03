@@ -28,7 +28,12 @@ const router = createBrowserRouter([
         element: <UserRegisterForm />,
         loader: async ({params}) => {
           console.log("Hello from UserRegisterForm loader");
-          // const response = getResource
+          const response = getResource('http://localhost:8080/api/v1/project/register/allbyUserName');
+          checkResponse(response);
+          const usernames = await response.json();
+          console.log("usernames", usernames);
+          return usernames;
+          
         }
       },
       {

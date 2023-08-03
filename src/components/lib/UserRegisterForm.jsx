@@ -76,7 +76,8 @@ const registrationReducer = (draft, action) => {
         "lastName",
         "email",
         "username",
-        "password"
+        "password",
+        "confirmedPassword"
       ]);
       break;
     }
@@ -88,7 +89,8 @@ const registrationReducer = (draft, action) => {
 
 const UserRegisterForm = () => {
   const nav = useNavigate();
-  const fetcher = useFetcher();
+  // const fetcher = useFetcher();
+  const usernames = useLoaderData();
 
   const [state, dispatch] = useImmerReducer(registrationReducer, {
     newUser: {
