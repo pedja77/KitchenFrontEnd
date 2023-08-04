@@ -40,6 +40,7 @@ import { useLogin } from "./hooks/useLogin";
 import LoginControl from "./components/login/LoginControl.jsx";
 
 import Home from "./components/home/Home";
+import { getUser, getUserRole } from "./utils/token";
 
 // import { ThemeProvider } from 'styled-components';
 /*
@@ -104,28 +105,36 @@ function App() {
   const [user, login, logout] = useLogin();
 
   // Proveriti jos da li je isDarkMode u listi zavisnosti?????
-  const lightTheme = useMemo(() => createTheme({
-    palette: {
-      mode: "light",
-      primary: {
-        main: "#bf360c",
-      },
-      secondary: {
-        main: "#ffffff"
-      },
-      divider: "#00300d",
-      text: {
-        primary: "#00000",
-        secondary: "#424242"
-      }
-    },
-  }), [isDarkMode]);
+  const lightTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: "light",
+          primary: {
+            main: "#bf360c",
+          },
+          secondary: {
+            main: "#ffffff",
+          },
+          divider: "#00300d",
+          text: {
+            primary: "#00000",
+            secondary: "#424242",
+          },
+        },
+      }),
+    [isDarkMode]
+  );
 
-  const darkTheme = useMemo(() => createTheme({
-    palette: {
-      mode: "dark",
-    },
-  }), [isDarkMode]);
+  const darkTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: "dark",
+        },
+      }),
+    [isDarkMode]
+  );
 
   const handlerDrawer = () => {
     setOpenDrawer(!openDrawer);
@@ -157,12 +166,58 @@ function App() {
               >
                 {openDrawer ? <Close /> : <MenuIcon />}
               </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1}}>
+              <Typography variant="h6" component="div" sx={{ flexGrow: "1" }}>
                 Hell's Kitchen
               </Typography>
-              <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <LoginControl safePath="/" defaultPath="/" isInToolbar={true}/>
-                <FormGroup sx={{marginLeft: 3}}>
+
+              <Box>
+                <List sx={{ display: "flex", flexDirection: "row" }}>
+                  <ListItem disablePadding>
+                    <ListItemButton component={NavLink} to="/">
+                      <ListItemText primary="Home" />
+                    </ListItemButton>
+                  </ListItem>
+                  {getUser() && getUserRole() === "ADMINISTRATOR" && (
+                    <ListItem disablePadding>
+                      <ListItemButton component={NavLink} to="/admin">
+                        <ListItemText primary="Dashboard" />
+                      </ListItemButton>
+                    </ListItem>
+                  )}
+                  {getUser() && getUserRole() === "COOK" && (
+                    <ListItem disablePadding>
+                      <ListItemButton component={NavLink} to="/cook">
+                        <ListItemText primary="My Recipes" />
+                      </ListItemButton>
+                    </ListItem>
+                  )}
+                  {getUser() && getUserRole() === "REGULARUSER" && (
+                    <ListItem disablePadding>
+                      <ListItemButton component={NavLink} to="/user">
+                        <ListItemText primary="My Recipes" />
+                      </ListItemButton>
+                    </ListItem>
+                  )}
+                </List>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <LoginControl safePath="/" defaultPath="/" isInToolbar={true} />
+                <Button
+                  variant="outlined"
+                  // onClick={(e) => {}}
+                  color="secondary"
+                  component={NavLink}
+                  to="/register"
+                >
+                  Register
+                </Button>
+                <FormGroup sx={{ marginLeft: 3 }}>
                   <FormControlLabel
                     control={
                       <Switch
@@ -190,7 +245,7 @@ function App() {
             open={openDrawer}
           >
             <Toolbar />
-            <DrawerHeader sx={{display: 'flex', justifyContent: 'flex-end'}}>
+            <DrawerHeader sx={{ display: "flex", justifyContent: "flex-end" }}>
               <IconButton onClick={handlerDrawer}>
                 {theme.direction === "ltr" ? (
                   <ChevronLeftIcon />
