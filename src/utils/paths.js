@@ -1,4 +1,4 @@
-import { getToken } from "./token";
+import { getToken, getUser } from "./token";
 
 export const getDefaultPath = (role) => {};
 
@@ -39,7 +39,7 @@ export const postResource = async (url, payload) =>
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: getToken(),
+      Authorization:  getToken(),
     },
     body: JSON.stringify(payload),
   });

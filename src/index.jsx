@@ -14,8 +14,9 @@ import Recipes from "./components/recipe/Recipes.jsx";
 import CookDashboard from "./components/cook/CookDashboard.jsx";
 import UserDashboard from "./components/user/UserDashboard.jsx";
 import UserRegisterForm from "./components/lib/UserRegisterForm.jsx";
+import Error from "./components/Error.jsx";
 
-const BASE_URI = "httl://localhost:8080/";
+const BASE_URI = "http://localhost:8080/api/v1/project/";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +29,28 @@ const router = createBrowserRouter([
         element: <UserRegisterForm />,
         loader: async ({params}) => {
           console.log("Hello from UserRegisterForm loader");
-          // const response = getResource
-        }
+          const response = await fetch(`${BASE_URI}register/allbyUserName`, {
+            method: "GET",
+          });
+          checkResponse(response);
+          const usernames = await response.json();
+          console.log("usernames", usernames);
+          return usernames;
+        }, 
+        action: async ({ params, request }) => {
+          const data = Object.fromEntries(await request.formData());
+          console.log("register action", JSON.stringify(data, null, 4));
+          const response = await fetch(`${BASE_URI}register/regUser`, {
+            method: "POST",headers: {
+              "Content-Type": "application/json",
+              Authorization: '',
+            },
+            body: JSON.stringify(data)
+          });
+          checkResponse(response);
+          return response;
+        } 
+        
       },
       {
         element: <Dashboard />,
