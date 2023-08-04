@@ -97,7 +97,7 @@ const registrationReducer = (draft, action) => {
 
 const UserRegisterForm = () => {
   const nav = useNavigate();
-  // const fetcher = useFetcher();
+  const fetcher = useFetcher();
   const usernames = useLoaderData();
 
   const [newUser, setNewUser] = useState({
@@ -140,10 +140,10 @@ const UserRegisterForm = () => {
     });
 
   const onSaveClick = () => {
-    let s = structuredClone(state.newUser);
+    let s = structuredClone(state.user);
     fetcher.submit(s, {
       method: "post",
-      action: `/users/new`,
+      action: `/register`,
     });
   };
 
