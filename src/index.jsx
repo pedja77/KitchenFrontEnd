@@ -67,7 +67,7 @@ const router = createBrowserRouter([
               checkResponse(response);
               const ing = await response.json();
               console.log(ing);
-              return [ing];
+              return ing;
             }
           },
           {
@@ -77,6 +77,14 @@ const router = createBrowserRouter([
           {
             element: <Cooks />,
             path: "/admin/cooks",
+            loader: async ({params}) => {
+              console.log("Hello from Cooks loader.");
+              const response = await getResource(`http://localhost:8080/api/v1/project/register/getCooks`);
+              checkResponse(response);
+              const cooks = await response.json();
+              console.log(cooks);
+              return cooks;
+            }
           },
           {
             element: <Recipes />,
