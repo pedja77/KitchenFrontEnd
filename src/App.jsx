@@ -208,15 +208,17 @@ function App() {
                 }}
               >
                 <LoginControl safePath="/" defaultPath="/" isInToolbar={true} />
-                <Button
-                  variant="outlined"
-                  // onClick={(e) => {}}
-                  color="secondary"
-                  component={NavLink}
-                  to="/register"
-                >
-                  Register
-                </Button>
+                {!getUser() && (
+                  <Button
+                    variant="outlined"
+                    // onClick={(e) => {}}
+                    color="secondary"
+                    component={NavLink}
+                    to="/register"
+                  >
+                    Register
+                  </Button>
+                )}
                 <FormGroup sx={{ marginLeft: 3 }}>
                   <FormControlLabel
                     control={

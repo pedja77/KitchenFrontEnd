@@ -15,6 +15,7 @@ import CookDashboard from "./components/cook/CookDashboard.jsx";
 import UserDashboard from "./components/user/UserDashboard.jsx";
 import UserRegisterForm from "./components/lib/UserRegisterForm.jsx";
 import Error from "./components/Error.jsx";
+import Cook from "./components/cook/Cook.jsx";
 
 const BASE_URI = "http://localhost:8080/api/v1/project/";
 
@@ -84,7 +85,21 @@ const router = createBrowserRouter([
               const cooks = await response.json();
               console.log(cooks);
               return cooks;
-            }
+            },
+            children: [
+              {
+                path: "/admin/cooks/:id",
+                element: <Cook />,
+                loader: async ({params}) => {
+                  console.log("cook loader params", params);
+                  const response = await getResource(`${BASE_URI}register/getCook/${params.id}`);
+                  // checkResponse(response);
+                  const cook = await response.json();
+                  console.log(JSON.stringify(cook, null, 4));
+                  return cook;
+                }
+              }
+            ]
           },
           {
             element: <Recipes />,

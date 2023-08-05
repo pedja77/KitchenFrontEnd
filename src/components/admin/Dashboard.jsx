@@ -24,7 +24,7 @@ const Dashboard = () => {
   return (
     <>
         <Typography variant="h4">Admin Dashboard</Typography>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 3 }}>
         <Tabs
           value={currentTabIndex}
           onChange={handleChange}

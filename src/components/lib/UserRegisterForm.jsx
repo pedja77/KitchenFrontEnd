@@ -95,7 +95,7 @@ const registrationReducer = (draft, action) => {
   }
 };
 
-const UserRegisterForm = () => {
+const UserRegisterForm = ({props}) => {
   const nav = useNavigate();
   const fetcher = useFetcher();
   const usernames = useLoaderData();
@@ -116,8 +116,6 @@ const UserRegisterForm = () => {
     isFormValid: false,
     usernames,
   });
-
-  // usePropChange(state.subject.grade, dispatch, "grade_changed");
 
   // useEffect(() => {
   //   if (fetcher.data) {

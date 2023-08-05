@@ -21,7 +21,7 @@ const Error = ({ entity }) => {
         >
           <Stack direction={"column"} spacing={1}>
             <Typography variant="h4">
-              Desila se greška u učitavanju {/*{entity} */}
+              Desila se greška u učitavanju {entity}
             </Typography>
             <Typography>Kod greške: {error.code}</Typography>
             <Typography variant="h6">Interna greška je: </Typography>
