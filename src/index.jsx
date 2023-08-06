@@ -17,7 +17,7 @@ import UserRegisterForm from "./components/lib/UserRegisterForm.jsx";
 import Error from "./components/Error.jsx";
 import Cook from "./components/cook/Cook.jsx";
 
-const BASE_URI = "http://localhost:8080/api/v1/project/";
+const BASE_URI = "http://localhost:8080/api/v1/project";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     loader: async ({ params }) => {
       console.log("hi from home loader");
-      const response = await fetch(`${BASE_URI}recipes`);
+      const response = await fetch(`${BASE_URI}/recipes`);
       // checkResponse(response);
       // const recipes = await response.json();
       // console.log("home all recipes", JSON.stringify(recipes, null, 4));
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
         element: <UserRegisterForm />,
         loader: async ({ params }) => {
           console.log("Hello from UserRegisterForm loader");
-          const response = await fetch(`${BASE_URI}register/allbyUserName`, {
+          const response = await fetch(`${BASE_URI}/register/allbyUserName`, {
             method: "GET",
           });
           checkResponse(response);
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         action: async ({ params, request }) => {
           const data = Object.fromEntries(await request.formData());
           console.log("register action", JSON.stringify(data, null, 4));
-          const response = await fetch(`${BASE_URI}register/regUser`, {
+          const response = await fetch(`${BASE_URI}/register/regUser`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -105,7 +105,7 @@ const router = createBrowserRouter([
                 loader: async ({ params }) => {
                   console.log("cook loader params", params);
                   const response = await getResource(
-                    `${BASE_URI}register/getCook/${params.id}`
+                    `${BASE_URI}/register/getCook/${params.id}`
                   );
                   // checkResponse(response);
                   const cook = await response.json();
@@ -121,7 +121,7 @@ const router = createBrowserRouter([
             loader: async ({ params }) => {
               console.log("recipes loader params", params);
               const response = await getResource(
-                `${BASE_URI}recipes`
+                `${BASE_URI}/recipes`
               );
               // checkResponse(response);
               const recipes = await response.json();
@@ -132,6 +132,16 @@ const router = createBrowserRouter([
           {
             element: <LimitingFactors />,
             path: "/admin/limiting-factors",
+            loader: async ({params}) => {
+              console.log("limiting factors loader params", params);
+              const response = await getResource(
+                `http://localhost:8080/api/v1/project/limitingFactor/all`
+              );
+              checkResponse(response);
+              const factors = await response.json();
+              console.log(JSON.stringify(factors, null, 4));
+              return factors;
+            }
           },
         ],
       },
