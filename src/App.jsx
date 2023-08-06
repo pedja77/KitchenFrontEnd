@@ -3,7 +3,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLoaderData, useLocation } from "react-router-dom";
 import {
   Box,
   Button,
@@ -101,6 +101,7 @@ function App() {
   const [isDarkMode, setDarkMode] = useState(false);
   const theme = useTheme();
   const location = useLocation();
+  const recipes = useLoaderData();
 
   const [user, login, logout] = useLogin();
 

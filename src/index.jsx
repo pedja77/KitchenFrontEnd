@@ -5,7 +5,7 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./components/admin/Dashboard.jsx";
 import { checkResponse } from "./utils/responseChecker.js";
-import { getResource } from './utils/paths.js';
+import { getResource } from "./utils/paths.js";
 import Ingredients from "./components/ingredient/Ingredients.jsx";
 import Cooks from "./components/cook/Cooks.jsx";
 import LimitingFactors from "./components/limiting_factor/LimitingFactors.jsx";
@@ -17,41 +17,49 @@ import UserRegisterForm from "./components/lib/UserRegisterForm.jsx";
 import Error from "./components/Error.jsx";
 import Cook from "./components/cook/Cook.jsx";
 
-const BASE_URI = "http://localhost:8080/api/v1/project/";
+const BASE_URI = "http://localhost:8080/api/v1/project";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <Error />,
+    loader: async ({ params }) => {
+      console.log("hi from home loader");
+      const response = await fetch(`${BASE_URI}/recipes`);
+      // checkResponse(response);
+      // const recipes = await response.json();
+      // console.log("home all recipes", JSON.stringify(recipes, null, 4));
+      return null;
+    },
     children: [
       {
         path: "/register",
         element: <UserRegisterForm />,
-        loader: async ({params}) => {
+        loader: async ({ params }) => {
           console.log("Hello from UserRegisterForm loader");
-          const response = await fetch(`${BASE_URI}register/allbyUserName`, {
+          const response = await fetch(`${BASE_URI}/register/allbyUserName`, {
             method: "GET",
           });
           checkResponse(response);
           const usernames = await response.json();
           console.log("usernames", usernames);
           return usernames;
-        }, 
+        },
         action: async ({ params, request }) => {
           const data = Object.fromEntries(await request.formData());
           console.log("register action", JSON.stringify(data, null, 4));
-          const response = await fetch(`${BASE_URI}register/regUser`, {
-            method: "POST",headers: {
+          const response = await fetch(`${BASE_URI}/register/regUser`, {
+            method: "POST",
+            headers: {
               "Content-Type": "application/json",
-              Authorization: '',
+              Authorization: "",
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
           });
           checkResponse(response);
           return response;
-        } 
-        
+        },
       },
       {
         element: <Dashboard />,
@@ -62,14 +70,16 @@ const router = createBrowserRouter([
           {
             element: <Ingredients />,
             path: "/admin/ingredients",
-            loader: async ({params}) => {
+            loader: async ({ params }) => {
               console.log("Hello from Ingredients loader.");
-              const response = await getResource(`http://localhost:8080/api/v1/project/ingredient/allIngredients`);
+              const response = await getResource(
+                `http://localhost:8080/api/v1/project/ingredient/allIngredients`
+              );
               checkResponse(response);
               const ing = await response.json();
               console.log(ing);
               return ing;
-            }
+            },
           },
           {
             element: <Users />,
@@ -78,9 +88,11 @@ const router = createBrowserRouter([
           {
             element: <Cooks />,
             path: "/admin/cooks",
-            loader: async ({params}) => {
+            loader: async ({ params }) => {
               console.log("Hello from Cooks loader.");
-              const response = await getResource(`http://localhost:8080/api/v1/project/register/getCooks`);
+              const response = await getResource(
+                `http://localhost:8080/api/v1/project/register/getCooks`
+              );
               checkResponse(response);
               const cooks = await response.json();
               console.log(cooks);
@@ -90,26 +102,48 @@ const router = createBrowserRouter([
               {
                 path: "/admin/cooks/:id",
                 element: <Cook />,
-                loader: async ({params}) => {
+                loader: async ({ params }) => {
                   console.log("cook loader params", params);
-                  const response = await getResource(`${BASE_URI}register/getCook/${params.id}`);
+                  const response = await getResource(
+                    `${BASE_URI}/register/getCook/${params.id}`
+                  );
                   // checkResponse(response);
                   const cook = await response.json();
                   console.log(JSON.stringify(cook, null, 4));
                   return cook;
-                }
-              }
-            ]
+                },
+              },
+            ],
           },
           {
             element: <Recipes />,
             path: "/admin/recipes",
+            loader: async ({ params }) => {
+              console.log("recipes loader params", params);
+              const response = await getResource(
+                `${BASE_URI}/recipes`
+              );
+              // checkResponse(response);
+              const recipes = await response.json();
+              console.log(JSON.stringify(recipes, null, 4));
+              return recipes;
+            },
           },
           {
             element: <LimitingFactors />,
-            path: "/admin/limiting-factors"
-          }
-        ]
+            path: "/admin/limiting-factors",
+            loader: async ({params}) => {
+              console.log("limiting factors loader params", params);
+              const response = await getResource(
+                `http://localhost:8080/api/v1/project/limitingFactor/all`
+              );
+              checkResponse(response);
+              const factors = await response.json();
+              console.log(JSON.stringify(factors, null, 4));
+              return factors;
+            }
+          },
+        ],
       },
       {
         path: "/user",
@@ -120,7 +154,7 @@ const router = createBrowserRouter([
         path: "/cook",
         element: <CookDashboard />,
         children: [],
-      }
+      },
     ],
   },
 ]);
