@@ -8,7 +8,7 @@ const Recipes = () => {
     const recipesList = useLoaderData();
 
     console.log("recipes component recipesList", recipesList);
-    return <Typography>Recipes list</Typography>
+    return <Typography>{<pre>{JSON.stringify(recipesList, null, 4)}</pre>}</Typography>
 }
 
 export default Recipes;

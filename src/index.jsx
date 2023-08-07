@@ -27,10 +27,10 @@ const router = createBrowserRouter([
     loader: async ({ params }) => {
       console.log("hi from home loader");
       const response = await fetch(`${BASE_URI}/recipes`);
-      // checkResponse(response);
-      // const recipes = await response.json();
-      // console.log("home all recipes", JSON.stringify(recipes, null, 4));
-      return null;
+      checkResponse(response);
+      const recipes = await response.json();
+      console.log("home all recipes", JSON.stringify(recipes, null, 4));
+      return recipes;
     },
     children: [
       {
@@ -84,6 +84,16 @@ const router = createBrowserRouter([
           {
             element: <Users />,
             path: "/admin/users",
+            loader: async ({params}) => {
+              console.log("Hello from user loader");
+              const response = await getResource(
+                `http://localhost:8080/api/v1/project/register/getUsers`
+              );
+              checkResponse(response);
+              const users = await response.json();
+              console.log(JSON.stringify(users, null, 4));
+              return users;
+            }
           },
           {
             element: <Cooks />,

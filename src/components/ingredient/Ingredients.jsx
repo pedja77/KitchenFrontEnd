@@ -20,17 +20,19 @@ const Ingredients = () => {
       "Fats",
       "Saturated fats",
       "Proteins",
+      "Contains" 
     ],
     tableData: ingredients,
     tdConfig: [
       "name",
       "unit",
       "calories",
-      "carbs",
+      "carbs", 
       "sugars",
       "fats",
       "saturatedFats",
       "proteins",
+      "...contains" //ne znam kako da namapiram alergene u tabelu, koristim Mapu u DTO-u na javi
     ],
     removeFn: () => {},
     collectionName: "ingredients",
