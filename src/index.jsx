@@ -78,7 +78,8 @@ const router = createBrowserRouter([
               );
               checkResponse(response);
               const ing = await response.json();
-              console.log(ing);
+              const mapica = ing.map(e => Object.fromEntries(e.contains));
+              console.log("ing", JSON.stringify(ing, null, 4));
               return ing;
             },
           },
