@@ -78,7 +78,6 @@ const router = createBrowserRouter([
               );
               checkResponse(response);
               const ing = await response.json();
-              const mapica = ing.map(e => Object.fromEntries(e.contains));
               console.log("ing", JSON.stringify(ing, null, 4));
               return ing;
             },
@@ -89,7 +88,7 @@ const router = createBrowserRouter([
             loader: async ({ params }) => {
               console.log("Hello from Users loader.");
               const response = await getResource(
-                `http://localhost:8080/api/v1/project/register/getRegUsers`
+                `http://localhost:8080/api/v1/project/register/getUsers`
               );
               checkResponse(response);
               const users = await response.json();
@@ -109,9 +108,9 @@ const router = createBrowserRouter([
                   const user = await response.json();
                   console.log(JSON.stringify(user, null, 4));
 
-                  const response2 = await getResource(`${BASE_URI}/register/allbyUserName`);
-                  const usernames = await response2.json();
-                  return [user, usernames];
+                  // const response2 = await getResource(`${BASE_URI}/register/allbyUserName`);
+                  // const usernames = await response2.json();
+                  return user;
                 },
                 action: async ({ params, request }) => {
                   if (request.method === "DELETE") {
