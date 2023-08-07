@@ -170,7 +170,7 @@ function App() {
               <Typography variant="h6" component="div" sx={{ flexGrow: "1" }}>
                 Hell's Kitchen
               </Typography>
-
+              
               <Box>
                 <List sx={{ display: "flex", flexDirection: "row" }}>
                   <ListItem disablePadding>
@@ -280,6 +280,9 @@ function App() {
             {location.pathname === "/" && <Home />}
           </Main>
         </Box>
+        {/* <pre>
+                {JSON.stringify(recipes, null, 4)}
+              </pre> */}
       </UserContext.Provider>
     </ThemeProvider>
   );
