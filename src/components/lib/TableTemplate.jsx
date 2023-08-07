@@ -33,9 +33,9 @@ const TableTemplate = ({ props }) => {
               {props.tableHeaders.map((th, i) => (
                 <TableCell key={window.crypto.randomUUID()}>{th}</TableCell>
               ))}
-              {getUserRole() === "ADMINISTRATOR" && (
+              {/* {getUserRole() === "ADMINISTRATOR" && (
                 <TableCell align="right">Action</TableCell>
-              )}
+              )} */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -46,7 +46,7 @@ const TableTemplate = ({ props }) => {
                 ))}
                 {getUserRole() === "ADMINISTRATOR" && (
                   <TableCell align="right">
-                    <Tooltip title="Obriši">
+                    {/* <Tooltip title="Obriši">
                       <IconButton
                         onClick={(e) =>
                           props.removeFn(e, t, props.collectionName)
@@ -54,7 +54,7 @@ const TableTemplate = ({ props }) => {
                       >
                         <Delete />
                       </IconButton>
-                    </Tooltip>
+                    </Tooltip> */}
                     <Tooltip title="Izmeni">
                       <span>
                         <IconButton

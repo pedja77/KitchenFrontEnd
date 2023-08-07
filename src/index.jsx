@@ -5,7 +5,7 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./components/admin/Dashboard.jsx";
 import { checkResponse } from "./utils/responseChecker.js";
-import { getResource } from "./utils/paths.js";
+import { deleteResource, getResource } from "./utils/paths.js";
 import Ingredients from "./components/ingredient/Ingredients.jsx";
 import Cooks from "./components/cook/Cooks.jsx";
 import LimitingFactors from "./components/limiting_factor/LimitingFactors.jsx";
@@ -16,6 +16,7 @@ import UserDashboard from "./components/user/UserDashboard.jsx";
 import UserRegisterForm from "./components/lib/UserRegisterForm.jsx";
 import Error from "./components/Error.jsx";
 import Cook from "./components/cook/Cook.jsx";
+import User from "./components/user/User.jsx";
 
 const BASE_URI = "http://localhost:8080/api/v1/project";
 
@@ -27,10 +28,10 @@ const router = createBrowserRouter([
     loader: async ({ params }) => {
       console.log("hi from home loader");
       const response = await fetch(`${BASE_URI}/recipes`);
-      // checkResponse(response);
-      // const recipes = await response.json();
-      // console.log("home all recipes", JSON.stringify(recipes, null, 4));
-      return null;
+      checkResponse(response);
+      const recipes = await response.json();
+      console.log("home all recipes", JSON.stringify(recipes, null, 4));
+      return recipes;
     },
     children: [
       {
@@ -84,6 +85,45 @@ const router = createBrowserRouter([
           {
             element: <Users />,
             path: "/admin/users",
+            loader: async ({ params }) => {
+              console.log("Hello from Users loader.");
+              const response = await getResource(
+                `http://localhost:8080/api/v1/project/register/getRegUsers`
+              );
+              checkResponse(response);
+              const users = await response.json();
+              console.log(users);
+              return users;
+            },
+            children: [
+              {
+                path: "/admin/users/:id",
+                element: <User />,
+                loader: async ({ params }) => {
+                  console.log("user loader params", params);
+                  const response = await getResource(
+                    `${BASE_URI}/register/getUser/${params.id}`
+                  );
+                  checkResponse(response);
+                  const user = await response.json();
+                  console.log(JSON.stringify(user, null, 4));
+
+                  const response2 = await getResource(`${BASE_URI}/register/allbyUserName`);
+                  const usernames = await response2.json();
+                  return [user, usernames];
+                },
+                action: async ({ params, request }) => {
+                  if (request.method === "DELETE") {
+                    const response = await deleteResource(
+                      `${BASE_URI}/register/deleteRegUserFromDB/${params.id}`
+                    );
+                    checkResponse(response);
+                    console.log("response data", await response.json());
+                    return response;
+                  }
+                },
+              },
+            ],
           },
           {
             element: <Cooks />,
@@ -120,9 +160,7 @@ const router = createBrowserRouter([
             path: "/admin/recipes",
             loader: async ({ params }) => {
               console.log("recipes loader params", params);
-              const response = await getResource(
-                `${BASE_URI}/recipes`
-              );
+              const response = await getResource(`${BASE_URI}/recipes`);
               // checkResponse(response);
               const recipes = await response.json();
               console.log(JSON.stringify(recipes, null, 4));
@@ -132,7 +170,7 @@ const router = createBrowserRouter([
           {
             element: <LimitingFactors />,
             path: "/admin/limiting-factors",
-            loader: async ({params}) => {
+            loader: async ({ params }) => {
               console.log("limiting factors loader params", params);
               const response = await getResource(
                 `http://localhost:8080/api/v1/project/limitingFactor/all`
@@ -141,7 +179,7 @@ const router = createBrowserRouter([
               const factors = await response.json();
               console.log(JSON.stringify(factors, null, 4));
               return factors;
-            }
+            },
           },
         ],
       },
