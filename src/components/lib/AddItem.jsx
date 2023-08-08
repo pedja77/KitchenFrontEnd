@@ -19,17 +19,20 @@ const AddItem = ({props, disabled = false}) => {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
+        marginBottom: 2
       }}
     >
+      {console.log("add item options", props.options)}
+      {console.log("add item forFilterOptions", props.forFilterOptions)}
       <Autocomplete
         disabled={disabled}
         sx={{ width: "90%" }}
         options={props.options.filter((t) =>
-          props.forFilterOptions.every((st) => st.id !== t.id)
+          props.forFilterOptions.every((st) => st !== t)
         )}
-        getOptionLabel={(a) => `${a[props.labelOptions[0]]} ${a[props.labelOptions[1]] || ""}`}
+        // getOptionLabel={(a) => `${a[props.labelOptions[0]]} ${a[props.labelOptions[1]] || ""}`}
         renderInput={(params) => (
-          <TextField {...params} label={`Dodeli ${props.itemName}`} />
+          <TextField {...params} label={`Add ${props.itemName}`} />
         )}
         value={props.newItem}
         onChange={(e, v) => props.handleSetNewOption(e, v, props.newItemName)}

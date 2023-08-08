@@ -74,7 +74,7 @@ const userReducer = (draft, action) => {
 };
 
 const UserEditForm = () => {
-  const userData = useLoaderData();
+  const [userData, factors] = useLoaderData();
   console.log("userData", userData);
   const fetcher = useFetcher();
   const nav = useNavigate();
@@ -86,7 +86,8 @@ const UserEditForm = () => {
       firstName: validateFirstName(userData.firstName),
       lastName: validateLastName(userData.lastName),
     },
-    // newFactor: null,
+    newFactor: null,
+    factors: structuredClone(factors).map(e => e.name),
     // newRecipe: null,
     isFormValid: true,
   });
@@ -166,17 +167,17 @@ const UserEditForm = () => {
   //   editUrl: '/subjects'
   // };
 
-  // const subjectsAddItemProps = {
-  //   itemName: "predmet",
-  //   newItemName: "newSubject",
-  //   newItem: state.newSubject,
-  //   options: subjects,
-  //   collection: "subjects",
-  //   forFilterOptions: state.teacher.subjects,
-  //   labelOptions: ["subjectName", "grade"],
-  //   handleSetNewOption,
-  //   handleAddNewItem,
-  // };
+  const userAddItemProps = {
+    itemName: "Limiting factor",
+    newItemName: "newFactor",
+    newItem: state.newFactor,
+    options: state.factors,
+    collection: "myLimitigFactors",
+    forFilterOptions: state.user.myLimitigFactors,
+    labelOptions: ["limitingFactor"],
+    handleSetNewOption,
+    handleAddNewItem,
+  };
 
   const validationContext = {
     dispatch,
@@ -280,6 +281,8 @@ const UserEditForm = () => {
               ))}
               {/* {console.log("from factors box", state.user.myLimitigFactors)} */}
             </Box>
+            {console.log("before select options", state.factors)}
+            <AddItem props={userAddItemProps} />
             <EditButtons
               onSaveClick={onSaveClick}
               onResetClick={onResetClick}
