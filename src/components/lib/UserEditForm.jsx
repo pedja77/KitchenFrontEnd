@@ -26,7 +26,7 @@ import {
   validateEmail,
 } from "../../utils/validation";
 import ValidatedTextField from "../lib/ValidatedTextField";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ValidationIndex = {
   firstName: validateFirstName,
@@ -79,22 +79,23 @@ const userReducer = (draft, action) => {
   }
 };
 
-const UserEditForm = () => {
-  const [userData, factors] = useLoaderData();
-  console.log("userData", userData);
+const UserEditForm = ({ props }) => {
+  // const [userData, facctors] = useLoaderData();
+  const [factors, setFactors] = useState(structuredClone(props.factors));
+  console.log("userData", props.user);
   const fetcher = useFetcher();
   const nav = useNavigate();
   const location = useLocation();
   const [state, dispatch] = useImmerReducer(userReducer, {
     user: {
-      ...userData,
+      ...props.user,
     },
     errors: {
-      firstName: validateFirstName(userData.firstName),
-      lastName: validateLastName(userData.lastName),
+      firstName: validateFirstName(props.user.firstName),
+      lastName: validateLastName(props.user.lastName),
     },
-    newFactor: null,
-    factors: structuredClone(factors).map((e) => e.name),
+    newItem: null,
+    items: structuredClone(factors).map((e) => e.name),
     // newRecipe: null,
     isFormValid: true,
   });
@@ -140,7 +141,7 @@ const UserEditForm = () => {
   const onResetClick = () =>
     dispatch({
       type: "reset_form",
-      user: structuredClone(userData),
+      user: structuredClone(props.user),
     });
 
   const onDeleteClick = () => {
@@ -156,7 +157,7 @@ const UserEditForm = () => {
 
   const onSaveClick = async () => {
     // let s = structuredClone(state.teacher);
-    // s.factors = JSON.stringify(state.teacher.subjects);
+    // s.items = JSON.stringify(state.teacher.subjects);
     // fetcher.submit(s, {
     //   method: "put",
     //   action: `/teachers/${state.teacher.id}`,
@@ -167,21 +168,21 @@ const UserEditForm = () => {
   // const subjectsTableProps = {
   //   tableLabel: "Limiting factors",
   //   tableHeaders: ["Id", "Limiting factor"],
-  //   tableData: state.user.factors,
+  //   tableData: state.user.items,
   //   tdConfig: ["id", "", "grade"],
   //   removeFn: handleRemoveItem,
   //   collectionName: "subjects",
   //   editUrl: '/subjects'
   // };
 
-  const userAddItemProps = {
-    itemName: "Limiting factor",
-    newItemName: "newFactor",
-    newItem: state.newFactor,
-    options: state.factors,
-    collection: "myLimitigFactors",
-    forFilterOptions: state.user.myLimitigFactors,
-    labelOptions: ["limitingFactor"],
+  const addItemProps = {
+    itemName: props.addItemProps.itemName,
+    newItemName: props.addItemProps.newItemName,
+    newItem: state.newItem,
+    options: state.items,
+    collection: props.addItemProps.collection,
+    forFilterOptions: state.user[props.addItemProps.forFilterOptions],
+    labelOptions: [props.addItemProps.labelOptions],
     handleSetNewOption,
     handleAddNewItem,
   };
@@ -260,48 +261,61 @@ const UserEditForm = () => {
               )}
             </Box> */}
 
-            {location.pathname === "/admin/cooks/:id" && (
-              <Box>
+            {/* // Prikazuje se samo ako se edituje kuvar */}
+            {location.pathname.startsWith("/admin/cooks/") && (
+              <Box
+                // component="form"
+                sx={{
+                  "& .MuiTextField-root": { m: 1, width: "50vw" },
+                }}
+                noValidate
+                autoComplete="off"
+              >
                 <TextField
                   id="outlined-multiline-static"
                   label="About me"
                   multiline
-                  minRows={6}
+                  minRows={2}
                   maxRows={10}
                   defaultValue={state.user.aboutMe}
                 />
               </Box>
             )}
-            <Typography>Limiting factors:</Typography>
-            <Box
-              sx={{
-                border: 1,
-                borderRadius: 2,
-                borderColor: "#c4c4c4",
-                minHeight: "9vh",
-                marginBottom: 2,
-                padding: 1,
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-              }}
-            >
-              {state.user.myLimitigFactors.map((factor, index) => (
-                <Chip
-                  label={factor}
-                  key={factor + index}
-                  xs={{}}
-                  name={factor}
-                  onClick={() => {
-                    console.log("clicked");
+            {/* // Prikazuje se samo ako se edituje korisnik */}
+            {location.pathname.startsWith("/admin/users/") && (
+              <>
+                <Typography>Limiting factors:</Typography>
+                <Box
+                  sx={{
+                    border: 1,
+                    borderRadius: 2,
+                    borderColor: "#c4c4c4",
+                    minHeight: "9vh",
+                    marginBottom: 2,
+                    padding: 1,
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
                   }}
-                  onDelete={(e) =>
-                    handleRemoveItem(e, factor, "myLimitigFactors")
-                  }
-                />
-              ))}
-            </Box>
-            <AddItem props={userAddItemProps} />
+                >
+                  {state.user.myLimitigFactors.map((factor, index) => (
+                    <Chip
+                      label={factor}
+                      key={factor + index}
+                      xs={{}}
+                      name={factor}
+                      onClick={() => {
+                        console.log("clicked");
+                      }}
+                      onDelete={(e) =>
+                        handleRemoveItem(e, factor, "myLimitigFactors")
+                      }
+                    />
+                  ))}
+                </Box>
+                <AddItem props={addItemProps} />
+              </>
+            )}
 
             <Box>
               <Typography>Liked recipes</Typography>

@@ -123,9 +123,11 @@ const router = createBrowserRouter([
                   const user = await response.json();
                   console.log(JSON.stringify(user, null, 4));
 
-                  const response2 = await getResource(`${BASE_URI}/limitingFactor/all`);
+                  const response2 = await getResource(`${BASE_URI}/limitingFactor`);
+                  checkResponse(response2);
                   const factors = await response2.json();
                   return [user, factors];
+                  
                 },
                 action: async ({ params, request }) => {
                   if (request.method === "DELETE") {
@@ -161,7 +163,11 @@ const router = createBrowserRouter([
                   // checkResponse(response);
                   const cook = await response.json();
                   console.log(JSON.stringify(cook, null, 4));
-                  return cook;
+
+                  const response2 = await getResource(`${BASE_URI}/limitingFactor`);
+                  checkResponse(response2);
+                  const factors = await response2.json()
+                  return [cook, factors];
                 },
               },
             ],

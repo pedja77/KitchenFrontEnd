@@ -5,14 +5,27 @@ import UserEditForm from "../lib/UserEditForm";
 
 const User = ({ props }) => {
   const nav = useNavigate();
-  const userData = useLoaderData();
+  const [userData, factors] = useLoaderData();
   const [user, setUser] = useState(structuredClone(userData));
   console.log("User props", props);
+
+  const addItemProps = {
+    itemName: "Limiting factor",
+    newItemName: "newItem",
+    // newItem: state.newFactor,
+    // options: state.factors,
+    collection: "myLimitigFactors",
+    forFilterOptions: "myLimitigFactors",
+    labelOptions: ["limitingFactor"],
+    // handleSetNewOption,
+    // handleAddNewItem,
+  };
+
   return (
     <Box sx={{minWidth: '100vh', width: '100%'}}>
       <Button onClick={() => nav("/admin/users")}>&lt;&lt; BACK</Button>
       <Box>
-        <UserEditForm sx={{width: '1000px'}}/>
+        <UserEditForm sx={{width: '1000px'}} props={{addItemProps, user, factors}}/>
       </Box>
     </Box>
   );
