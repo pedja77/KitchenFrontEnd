@@ -16,6 +16,7 @@ import UserDashboard from "./components/user/UserDashboard.jsx";
 import UserRegisterForm from "./components/lib/UserRegisterForm.jsx";
 import Error from "./components/Error.jsx";
 import Cook from "./components/cook/Cook.jsx";
+import RecipeDetails from "./components/recipe/RecipeDetails.jsx";
 
 const BASE_URI = "http://localhost:8080/api/v1/project";
 
@@ -60,6 +61,23 @@ const router = createBrowserRouter([
           checkResponse(response);
           return response;
         },
+      },
+      {
+        element: <RecipeDetails/>,
+        path: "/recipe/:id",
+        loader: async ({params}) => {
+          console.log("recipe details loading params", params);
+          const response = await fetch(`${BASE_URI}/recipes/${params.id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "",
+          }});
+          checkResponse(response);
+          const recipeDetail = await response.json();
+          console.log(JSON.stringify(recipeDetail, null, 4));
+          return recipeDetail;
+        }
       },
       {
         element: <Dashboard />,
