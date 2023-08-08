@@ -32,7 +32,7 @@ const Ingredients = () => {
       "fats",
       "saturatedFats",
       "proteins",
-      "...contains" //ne znam kako da namapiram alergene u tabelu, koristim Mapu u DTO-u na javi
+      "...contains"
     ],
     removeFn: () => {},
     collectionName: "ingredients",

@@ -17,6 +17,7 @@ import UserRegisterForm from "./components/lib/UserRegisterForm.jsx";
 import Error from "./components/Error.jsx";
 import Cook from "./components/cook/Cook.jsx";
 import User from "./components/user/User.jsx";
+import RecipeDetails from "./components/recipe/RecipeDetails.jsx";
 
 const BASE_URI = "http://localhost:8080/api/v1/project";
 
@@ -63,6 +64,24 @@ const router = createBrowserRouter([
         },
       },
       {
+        element: <RecipeDetails />,
+        path: "/recipe/:id",
+        loader: async ({ params }) => {
+          console.log("recipe details loading params", params);
+          const response = await fetch(`${BASE_URI}/recipes/${params.id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "",
+            },
+          });
+          checkResponse(response);
+          const recipeDetail = await response.json();
+          console.log(JSON.stringify(recipeDetail, null, 4));
+          return recipeDetail;
+        },
+      },
+      {
         element: <Dashboard />,
         path: "/admin",
         // loader: async ({ params }) => {},
@@ -73,9 +92,7 @@ const router = createBrowserRouter([
             path: "/admin/ingredients",
             loader: async ({ params }) => {
               console.log("Hello from Ingredients loader.");
-              const response = await getResource(
-                `http://localhost:8080/api/v1/project/ingredient/allIngredients`
-              );
+              const response = await getResource(`http://localhost:8080/api/v1/project/ingredient`);
               checkResponse(response);
               const ing = await response.json();
               console.log("ing", JSON.stringify(ing, null, 4));
@@ -86,10 +103,8 @@ const router = createBrowserRouter([
             element: <Users />,
             path: "/admin/users",
             loader: async ({ params }) => {
-              console.log("Hello from Users loader.");
-              const response = await getResource(
-                `http://localhost:8080/api/v1/project/register/getUsers`
-              );
+              console.log("Hello from user loader");
+              const response = await getResource(`http://localhost:8080/api/v1/project/register/getUsers`);
               checkResponse(response);
               const users = await response.json();
               console.log(users);
@@ -130,9 +145,7 @@ const router = createBrowserRouter([
             path: "/admin/cooks",
             loader: async ({ params }) => {
               console.log("Hello from Cooks loader.");
-              const response = await getResource(
-                `http://localhost:8080/api/v1/project/register/getCooks`
-              );
+              const response = await getResource(`http://localhost:8080/api/v1/project/register/getCooks`);
               checkResponse(response);
               const cooks = await response.json();
               console.log(cooks);
@@ -144,9 +157,7 @@ const router = createBrowserRouter([
                 element: <Cook />,
                 loader: async ({ params }) => {
                   console.log("cook loader params", params);
-                  const response = await getResource(
-                    `${BASE_URI}/register/getCook/${params.id}`
-                  );
+                  const response = await getResource(`${BASE_URI}/register/getCook/${params.id}`);
                   // checkResponse(response);
                   const cook = await response.json();
                   console.log(JSON.stringify(cook, null, 4));
@@ -172,9 +183,7 @@ const router = createBrowserRouter([
             path: "/admin/limiting-factors",
             loader: async ({ params }) => {
               console.log("limiting factors loader params", params);
-              const response = await getResource(
-                `http://localhost:8080/api/v1/project/limitingFactor/all`
-              );
+              const response = await getResource(`http://localhost:8080/api/v1/project/limitingFactor`);
               checkResponse(response);
               const factors = await response.json();
               console.log(JSON.stringify(factors, null, 4));
