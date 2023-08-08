@@ -5,9 +5,15 @@ import {
   Container,
   FormControl,
   FormLabel,
+  TextField,
   Typography,
 } from "@mui/material";
-import { useFetcher, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  useFetcher,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useImmerReducer } from "use-immer";
 import TableTemplate from "../lib/TableTemplate";
 import AddItem from "../lib/AddItem";
@@ -78,6 +84,7 @@ const UserEditForm = () => {
   console.log("userData", userData);
   const fetcher = useFetcher();
   const nav = useNavigate();
+  const location = useLocation();
   const [state, dispatch] = useImmerReducer(userReducer, {
     user: {
       ...userData,
@@ -87,7 +94,7 @@ const UserEditForm = () => {
       lastName: validateLastName(userData.lastName),
     },
     newFactor: null,
-    factors: structuredClone(factors).map(e => e.name),
+    factors: structuredClone(factors).map((e) => e.name),
     // newRecipe: null,
     isFormValid: true,
   });
@@ -195,7 +202,6 @@ const UserEditForm = () => {
         minWidth: "90%",
       }}
     >
-
       {console.log("UserEditForm render", state.user)}
 
       <Box sx={{ width: "50vw" }}>
@@ -236,7 +242,6 @@ const UserEditForm = () => {
                   value={state.user.email}
                   {...validationContext}
                 />
-                
               </>
             ) : (
               <>
@@ -255,7 +260,19 @@ const UserEditForm = () => {
               )}
             </Box> */}
 
-            <Typography>My limiting factors:</Typography>
+            {location.pathname === "/admin/cooks/:id" && (
+              <Box>
+                <TextField
+                  id="outlined-multiline-static"
+                  label="About me"
+                  multiline
+                  minRows={6}
+                  maxRows={10}
+                  defaultValue={state.user.aboutMe}
+                />
+              </Box>
+            )}
+            <Typography>Limiting factors:</Typography>
             <Box
               sx={{
                 border: 1,
@@ -275,14 +292,21 @@ const UserEditForm = () => {
                   key={factor + index}
                   xs={{}}
                   name={factor}
-                  onClick={() => {console.log("clicked")}}
-                  onDelete={(e) => handleRemoveItem(e, factor, "myLimitigFactors")}
+                  onClick={() => {
+                    console.log("clicked");
+                  }}
+                  onDelete={(e) =>
+                    handleRemoveItem(e, factor, "myLimitigFactors")
+                  }
                 />
               ))}
-              {/* {console.log("from factors box", state.user.myLimitigFactors)} */}
             </Box>
-            {console.log("before select options", state.factors)}
             <AddItem props={userAddItemProps} />
+
+            <Box>
+              <Typography>Liked recipes</Typography>
+              
+            </Box>
             <EditButtons
               onSaveClick={onSaveClick}
               onResetClick={onResetClick}
