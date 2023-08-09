@@ -25,7 +25,7 @@ const User = ({ props }) => {
     <Box sx={{minWidth: '100vh', width: '100%'}}>
       <Button onClick={() => nav("/admin/users")}>&lt;&lt; BACK</Button>
       <Box>
-        <UserEditForm sx={{width: '1000px'}} props={{addItemProps, user, factors}}/>
+        <UserEditForm  props={{addItemProps, user, factors}}/>
       </Box>
     </Box>
   );
