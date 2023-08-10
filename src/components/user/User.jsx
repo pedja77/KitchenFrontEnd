@@ -169,15 +169,17 @@ const User = ({ props }) => {
     // // nav("/teachers");
   };
 
-  // const subjectsTableProps = {
-  //   tableLabel: "Limiting factors",
-  //   tableHeaders: ["Id", "Limiting factor"],
-  //   tableData: state.user.items,
-  //   tdConfig: ["id", "", "grade"],
-  //   removeFn: handleRemoveItem,
-  //   collectionName: "subjects",
-  //   editUrl: '/subjects'
-  // };
+  const likedRecipesTableProps = {
+    tableLabel: "Liked recipes",
+    tableHeaders: ["Id", "Title", "Cook"],
+    tableData: state.user.myCookbook,
+    tdConfig: ["id", "title", "cook"],
+    removeFn: handleRemoveItem,
+    collectionName: "myCookbook",
+    editUrl: "/",
+    editBtn: false,
+    deleteBtn: false
+  };
 
   // const addItemProps = {
   //   itemName: state.itemName,
@@ -240,11 +242,10 @@ const User = ({ props }) => {
                 usersLimitingFactors={state.user.myLimitigFactors}
                 addItemProps={addItemProps}
                 handleRemoveItem={handleRemoveItem}
-                // handleAddItem={handleAddNewItem}
               />
-              <Box>
-                <Typography>Liked recipes</Typography>
-              </Box>
+
+              <TableTemplate props={likedRecipesTableProps} />
+
               <EditButtons
                 onSaveClick={onSaveClick}
                 onResetClick={onResetClick}

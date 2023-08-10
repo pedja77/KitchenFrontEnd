@@ -46,25 +46,29 @@ const TableTemplate = ({ props }) => {
                 ))}
                 {getUserRole() === "ADMINISTRATOR" && (
                   <TableCell align="right">
-                    {/* <Tooltip title="Obriši">
-                      <IconButton
-                        onClick={(e) =>
-                          props.removeFn(e, t, props.collectionName)
-                        }
-                      >
-                        <Delete />
-                      </IconButton>
-                    </Tooltip> */}
-                    <Tooltip title="Izmeni">
-                      <span>
+                    {props.deleteBtn && (
+                      <Tooltip title="Delete">
                         <IconButton
-                          disabled={props.editUrl === undefined}
-                          onClick={() => nav(`${props.editUrl}/${t.id}`)}
+                          onClick={(e) =>
+                            props.removeFn(e, t, props.collectionName)
+                          }
                         >
-                          <Edit />
+                          <Delete />
                         </IconButton>
-                      </span>
-                    </Tooltip>
+                      </Tooltip>
+                    )}
+                    {props.editBtn && (
+                      <Tooltip title="Edit">
+                        <span>
+                          <IconButton
+                            disabled={props.editUrl === undefined}
+                            onClick={() => nav(`${props.editUrl}/${t.id}`)}
+                          >
+                            <Edit />
+                          </IconButton>
+                        </span>
+                      </Tooltip>
+                    )}
                   </TableCell>
                 )}
               </TableRow>
