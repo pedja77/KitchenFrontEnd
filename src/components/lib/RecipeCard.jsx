@@ -22,9 +22,10 @@ const RecipeCard = ({props}) => {
            }}  onClick={() => nav(`/recipe/${props.id}`)}>
 
             <CardHeader sx={{display: "flex", textAlign: "center", 
-                backgroundColor: "rgb(224, 94, 43)", paddingBottom:"2"}} 
-                title={props.title} subheader={`Created on:  ${props.createdOn}`}/>
-            
+                backgroundColor: "rgb(224, 94, 43)", paddingBottom:"2"}}
+                title={props.title} titleTypographyProps={{fontWeight:"bold"}}
+                subheader={`Created on:  ${props.createdOn}`}
+                subheaderTypographyProps={{color: "black"}}/>
             <CardMedia
                  sx={{justifyContent:"center"}}  
                  component="svg"
@@ -38,14 +39,9 @@ const RecipeCard = ({props}) => {
                 sx={{display: "flex", flexDirection: "column", 
                 alignItems:"center", backgroundColor: "rgb(224, 94, 43)"}}>
 
-                {props.description} 
-                <br/>
-                By: {props.cook}
-                <br/>
-                {/* {props.ingredients.map( e=> e.name)}  */}
-                <br/>
-                {/*test iteracije kroz mapu a i podsetnik za NK*/}
-                {/* {Object.entries(props.ingredientAmount).map(([key, value]) =>  `${key}: ${value}`)}  */}
+                
+                
+                
                 </CardContent>
                
                 
