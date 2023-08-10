@@ -71,8 +71,9 @@ const router = createBrowserRouter([
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-      
-          }});
+            Authorization: "",
+          },
+        });
           checkResponse(response);
           const recipeDetail = await response.json();
           console.log(JSON.stringify(recipeDetail, null, 4));
