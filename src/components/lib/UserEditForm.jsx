@@ -79,20 +79,20 @@ const userReducer = (draft, action) => {
   }
 };
 
-const UserEditForm = ({ props }) => {
-  // const [userData, facctors] = useLoaderData();
-  const [factors, setFactors] = useState(structuredClone(props.factors));
-  console.log("userData", props.user);
+const User = ({ props }) => {
+  const [userData, allFactors] = useLoaderData();
+  const [factors, setFactors] = useState(structuredClone(allFactors));
+  // console.log("userData", props.user);
   const fetcher = useFetcher();
   const nav = useNavigate();
   const location = useLocation();
   const [state, dispatch] = useImmerReducer(userReducer, {
     user: {
-      ...props.user,
+      ...userData,
     },
     errors: {
-      firstName: validateFirstName(props.user.firstName),
-      lastName: validateLastName(props.user.lastName),
+      firstName: validateFirstName(user.firstName),
+      lastName: validateLastName(user.lastName),
     },
     newItem: null,
     items: structuredClone(factors).map((e) => e.name),
@@ -141,7 +141,7 @@ const UserEditForm = ({ props }) => {
   const onResetClick = () =>
     dispatch({
       type: "reset_form",
-      user: structuredClone(props.user),
+      user: structuredClone(userData),
     });
 
   const onDeleteClick = () => {
@@ -334,7 +334,7 @@ const UserEditForm = ({ props }) => {
   );
 };
 
-export default UserEditForm;
+export default User;
 
 // import {
 //   Box,

@@ -95,7 +95,7 @@ const registrationReducer = (draft, action) => {
   }
 };
 
-const UserRegisterForm = ({props}) => {
+const UserRegisterForm = ({ props }) => {
   const nav = useNavigate();
   const fetcher = useFetcher();
   const usernames = useLoaderData();
@@ -134,7 +134,7 @@ const UserRegisterForm = ({props}) => {
   const onResetClick = () =>
     dispatch({
       type: "reset_form",
-      user: structuredClone(newUser)
+      user: structuredClone(newUser),
     });
 
   const onSaveClick = () => {
@@ -162,76 +162,77 @@ const UserRegisterForm = ({props}) => {
       }}
     >
       <Typography variant="h3">Register</Typography>
+      <Box sx={{ width: "50vw" }}>
+        <form>
+          <FormControl
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <ValidatedTextField
+              id={"firstName"}
+              label={"First name"}
+              type={"text"}
+              required
+              value={state.user.firstName}
+              {...validationContext}
+            />
 
-      <form>
-        <FormControl
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          <ValidatedTextField
-            id={"firstName"}
-            label={"First name"}
-            type={"text"}
-            required
-            value={state.user.firstName}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"lastName"}
+              label={"Last name"}
+              type={"text"}
+              required
+              value={state.user.lastName}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"lastName"}
-            label={"Last name"}
-            type={"text"}
-            required
-            value={state.user.lastName}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"email"}
+              label={"Email"}
+              type={"email"}
+              required
+              value={state.user.email}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"email"}
-            label={"Email"}
-            type={"email"}
-            required
-            value={state.user.email}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"username"}
+              label={"username"}
+              type={"text"}
+              required
+              value={state.user.username}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"username"}
-            label={"username"}
-            type={"text"}
-            required
-            value={state.user.username}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"password"}
+              label={"Password"}
+              type={"password"}
+              required
+              value={state.user.password}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"password"}
-            label={"Password"}
-            type={"password"}
-            required
-            value={state.user.password}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"confirmedPassword"}
+              label={"Confirm password"}
+              type={"password"}
+              required
+              value={state.user.confirmedPassword}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"confirmedPassword"}
-            label={"Confirm password"}
-            type={"password"}
-            required
-            value={state.user.confirmedPassword}
-            {...validationContext}
-          />
-
-          <AddNewButtons
-            onResetClick={onResetClick}
-            onSaveClick={onSaveClick}
-            isFormValid={state.isFormValid}
-          />
-        </FormControl>
-      </form>
+            <AddNewButtons
+              onResetClick={onResetClick}
+              onSaveClick={onSaveClick}
+              isFormValid={state.isFormValid}
+            />
+          </FormControl>
+        </form>
+      </Box>
     </Container>
   );
 };

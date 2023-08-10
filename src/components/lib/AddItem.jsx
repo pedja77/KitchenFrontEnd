@@ -12,7 +12,7 @@ import { Autocomplete, Box, IconButton, TextField, Tooltip } from "@mui/material
  * labelOptions: ["firstName", "lastName"],
  * handleSetNewOption,
  * handleAddNewItem }*/
-const AddItem = ({props, disabled = false}) => {
+const AddItem = ({addItemProps, disabled = false, handleAddItem}) => {
   return (
     <Box
       sx={{
@@ -22,27 +22,27 @@ const AddItem = ({props, disabled = false}) => {
         marginBottom: 2
       }}
     >
-      {console.log("add item options", props.options)}
-      {console.log("add item forFilterOptions", props.forFilterOptions)}
+      {console.log("add item options", addItemProps.options)}
+      {console.log("add item forFilterOptions", addItemProps.forFilterOptions)}
       <Autocomplete
         disabled={disabled}
         sx={{ width: "90%" }}
-        options={props.options.filter((t) =>
-          props.forFilterOptions.every((st) => st !== t)
+        options={addItemProps.options.filter((t) =>
+          addItemProps.forFilterOptions.every((st) => st !== t)
         )}
-        // getOptionLabel={(a) => `${a[props.labelOptions[0]]} ${a[props.labelOptions[1]] || ""}`}
+        // getOptionLabel={(a) => `${a[addItemProps.labelOptions[0]]} ${a[addItemProps.labelOptions[1]] || ""}`}
         renderInput={(params) => (
-          <TextField {...params} label={`Add ${props.itemName}`} />
+          <TextField {...params} label={`Add ${addItemProps.itemName}`} />
         )}
-        value={props.newItem}
-        onChange={(e, v) => props.handleSetNewOption(e, v, props.newItemName)}
+        value={addItemProps.newItem}
+        onChange={(e, v) => addItemProps.handleSetNewOption(e, v, addItemProps.newItemName)}
       />
-      <Tooltip title={`Dodaj ${props.itemName}`}>
+      <Tooltip title={`Dodaj ${addItemProps.itemName}`}>
         <span>
           <IconButton
-            disabled={props.newItem === null}
+            disabled={addItemProps.newItem === null}
             size="large"
-            onClick={() => props.handleAddNewItem(props.newItemName, props.collection)}
+            onClick={() => addItemProps.handleAddNewItem(addItemProps.newItemName, addItemProps.collection)}
           >
             <AddBoxSharp fontSize="large" />
           </IconButton>
