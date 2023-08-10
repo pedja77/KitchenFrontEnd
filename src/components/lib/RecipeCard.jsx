@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 const RecipeCard = ({props}) => {
     const nav = useNavigate();
 
+    
+
 
     return (
         <>
@@ -18,7 +20,8 @@ const RecipeCard = ({props}) => {
                         cursor: "pointer"
                 }
            }}  onClick={() => nav(`/recipe/${props.id}`)}>
-             <CardHeader sx={{display: "flex", textAlign: "center", 
+
+            <CardHeader sx={{display: "flex", textAlign: "center", 
                 backgroundColor: "rgb(224, 94, 43)", paddingBottom:"2"}} 
                 title={props.title} subheader={`Created on:  ${props.createdOn}`}/>
             
@@ -28,10 +31,13 @@ const RecipeCard = ({props}) => {
                  height="200"
                  width="inherit"
 
-                image="https://upload.wikimedia.org/wikipedia/commons/2/2e/Food-luxury-pasta.svg"
+                image="/Food-luxury-pasta.svg"
                 title={props.title}
                 />
-                <CardContent sx={{display: "flex", flexDirection: "column", alignItems:"center", backgroundColor: "rgb(224, 94, 43)"}}>
+                <CardContent 
+                sx={{display: "flex", flexDirection: "column", 
+                alignItems:"center", backgroundColor: "rgb(224, 94, 43)"}}>
+
                 {props.description} 
                 <br/>
                 By: {props.cook}
