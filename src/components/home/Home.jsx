@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from "@mui/material"
+import { Box, Container, FormControl, Grid, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import RecipeCard from "../lib/RecipeCard";
@@ -34,8 +34,17 @@ const Home = () => {
           getLoggedUser();
           
       }, []);
-  }
- 
+  // }
+      const search = (value) => {
+    if (value == "") {
+      setRecipes(recipes);
+    } else {
+      const r = recipes.filter((r) =>
+        r.title.toLowerCase().includes(value.toLowerCase())
+      );
+      setRecipes(r);
+    }
+  };
  
 
     
@@ -43,9 +52,18 @@ const Home = () => {
 
     return (
     <>
+    
     <Typography sx={{textAlign:"center", 
           paddingTop:"20px", backgroundColor:"coral", 
           fontSize:"20px", fontWeight:"Bold" }}>Welcome to Hell's Kitchen!!</Typography>
+          <FormControl sx={{ width: "30%" }}>
+          <TextField
+            placeholder="Search..."
+            label="Search recipes"
+            sx={{ marginTop:"5px", marginBottom:"5px"}}
+            onChange={(e) => search(e.target.value)}
+          />
+        </FormControl>
     <Container sx={{backgroundColor: "#bf360c", padding:"30px 30px"}}>
     
        {/* return condition1 ? value1
