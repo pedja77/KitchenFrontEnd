@@ -26,13 +26,9 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import Close from "@mui/icons-material/Close";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-import {
-  ThemeProvider,
-  styled,
-  useTheme,
-  createTheme,
-} from "@mui/material/styles";
+import { ThemeProvider, styled, useTheme, createTheme } from "@mui/material/styles";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -49,24 +45,22 @@ Ova komponenta predstavlja 'pocetnu stranicu' za nasu aplikaciju posto smo defin
 
 const drawerWidth = 240;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create("margin", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
     transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
-  })
-);
+    marginLeft: 0,
+  }),
+}));
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -151,11 +145,7 @@ function App() {
       <UserContext.Provider value={{ user, login, logout }}>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
-          <MuiAppBar
-            position="fixed"
-            open={openDrawer}
-            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          >
+          <MuiAppBar position="fixed" open={openDrawer} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar>
               <IconButton
                 size="large"
@@ -167,10 +157,10 @@ function App() {
               >
                 {openDrawer ? <Close /> : <MenuIcon />}
               </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: "1" }}>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 0, marginRight: "16px" }}>
                 Hell's Kitchen
               </Typography>
-              
+
               <Box>
                 <List sx={{ display: "flex", flexDirection: "row" }}>
                   <ListItem disablePadding>
@@ -201,36 +191,28 @@ function App() {
                   )}
                 </List>
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <LoginControl safePath="/" defaultPath="/" isInToolbar={true} />
-                {!getUser() && (
-                  <Button
-                    variant="outlined"
-                    // onClick={(e) => {}}
-                    color="secondary"
-                    component={NavLink}
-                    to="/register"
-                  >
-                    Register
-                  </Button>
+              <Box sx={{ marginLeft: "auto", display: "flex", alignItems: "center" }}>
+                {!getUser() ? ( // Only show when user is not logged in
+                  <>
+                    <LoginControl safePath="/" defaultPath="/" isInToolbar={true} />
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      component={NavLink}
+                      to="/register"
+                      sx={{ marginLeft: 1 }}
+                    >
+                      Register
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <AccountCircleIcon sx={{ marginRight: 1 }} />
+                    <Typography variant="body1" sx={{ marginRight: 1 }}>
+                      {user.user}
+                    </Typography>
+                  </>
                 )}
-                <FormGroup sx={{ marginLeft: 3 }}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={isDarkMode}
-                        onChange={handleThemeChange}
-                      />
-                    }
-                    label={isDarkMode ? "Light mode" : "Dark mode"}
-                  />
-                </FormGroup>
               </Box>
             </Toolbar>
           </MuiAppBar>
@@ -248,16 +230,13 @@ function App() {
             open={openDrawer}
           >
             <Toolbar />
-            <DrawerHeader sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <DrawerHeader sx={{ display: "flex", justifyContent: "end" }}>
               <IconButton onClick={handlerDrawer}>
-                {theme.direction === "ltr" ? (
-                  <ChevronLeftIcon />
-                ) : (
-                  <ChevronRightIcon />
-                )}
+                {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
               </IconButton>
             </DrawerHeader>
             <Divider />
+
             {/* <List>
               <ListItem disablePadding>
                 <ListItemButton component={NavLink} to="/subjects">
@@ -272,6 +251,21 @@ function App() {
               </ListItem>
               <Divider />
             </List> */}
+            <FormGroup sx={{ marginLeft: 3 }}>
+              <FormControlLabel
+                control={<Switch checked={isDarkMode} onChange={handleThemeChange} />}
+                label={isDarkMode ? "Light mode" : "Dark mode"}
+              />
+            </FormGroup>
+            {user && ( // Changed: Only render if user is logged in
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={logout}>
+                    <ListItemText primary="Logout" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            )}
           </Drawer>
           <Main open={openDrawer}>
             <DrawerHeader />
