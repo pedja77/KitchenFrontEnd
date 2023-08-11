@@ -12,7 +12,7 @@ const RecipeCard = ({props}) => {
 
     return (
         <>
-        <Grid item xs={4}  >
+        <Grid item xs={5}  >
             <Card sx={
                     {"&:hover": {
                         boxShadow: "10",
@@ -39,7 +39,7 @@ const RecipeCard = ({props}) => {
                 <CardContent 
                 sx={{display: "flex", flexDirection: "column", 
                 alignItems:"center", backgroundColor: "rgb(224, 94, 43)"}}>
-                <Typography>{props["limitingFactors"]}</Typography>
+                
                 
                 </CardContent>
                
