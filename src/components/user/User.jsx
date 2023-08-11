@@ -216,7 +216,7 @@ const User = ({ props }) => {
 
   return (
     <Box sx={{ minWidth: "100vh", width: "100%" }}>
-      <Button onClick={() => nav("/admin/cooks")}>&lt;&lt; BACK</Button>
+      <Button onClick={() => nav("/admin/users")}>&lt;&lt; BACK</Button>
       <Container
         sx={{
           display: "flex",
