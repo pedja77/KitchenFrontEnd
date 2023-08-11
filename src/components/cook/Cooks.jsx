@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { Outlet, useLoaderData, useLocation } from "react-router-dom";
 import TableTemplate from "../lib/TableTemplate";
 import { useState } from "react";
@@ -17,13 +17,14 @@ const Cooks = () => {
         removeFn: () => {},
         collectionName: "cooksList",
         editUrl: "/admin/cooks",
+        editBtn: true
       };
 
     return (
-        <>
+        <Box sx = {{width: "90vw", margin: "auto"}}>
             {location.pathname === "/admin/cooks" && <TableTemplate props = {cooksTableProps} />}
             <Outlet />
-        </>
+        </Box>
     )
 }
 

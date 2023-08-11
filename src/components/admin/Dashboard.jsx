@@ -20,21 +20,29 @@ const Dashboard = () => {
     console.log(tabIndex);
     setCurrentTabIndex(tabIndex);
   };
-  
+
   return (
     <>
-        <Typography variant="h4">Admin Dashboard</Typography>
+      <Typography variant="h4">Admin Dashboard</Typography>
       <Box sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 3 }}>
         <Tabs
           value={currentTabIndex}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Users"  component={NavLink} to="/admin/users"/>
-          <Tab label="Cooks"  component={NavLink} to="/admin/cooks"/>
-          <Tab label="Recipes" component={NavLink} to="/admin/recipes"/>
-          <Tab label="Ingredients" component={NavLink} to="/admin/ingredients"/>
-          <Tab label="Limiting Factors" component={NavLink} to="/admin/limiting-factors"/>
+          <Tab label="Users" component={NavLink} to="/admin/users" />
+          <Tab label="Cooks" component={NavLink} to="/admin/cooks" />
+          <Tab label="Recipes" component={NavLink} to="/admin/recipes" />
+          <Tab
+            label="Ingredients"
+            component={NavLink}
+            to="/admin/ingredients"
+          />
+          <Tab
+            label="Limiting Factors"
+            component={NavLink}
+            to="/admin/limiting-factors"
+          />
         </Tabs>
       </Box>
 
@@ -43,7 +51,9 @@ const Dashboard = () => {
       {currentTabIndex === 2 && <Recipes />}
       {currentTabIndex === 3 && <Ingredients />}
       {currentTabIndex === 4 && <LimitingFactors />} */}
-     <Outlet />
+      <Box sx={{ minWidth:'80%' }}>
+        <Outlet />
+      </Box>
     </>
   );
 };

@@ -11,7 +11,7 @@ export const decodeJwtPayload = (token) => {
 // Izbacim "Bearer " i izdvojim drugi od tri segmenta razdvojena tackom
 const getTokenPayload = (token) => token.split(" ")[1].split(".")[1];
 
-export const getUser = () => {
+export   const getUser = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   return user;
 };

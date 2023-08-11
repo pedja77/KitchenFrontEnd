@@ -143,84 +143,76 @@ const UserRegisterForm = ({ props }) => {
       }}
     >
       <Typography variant="h3">Register</Typography>
+      <Box sx={{ width: "50vw" }}>
+        <form>
+          <FormControl
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <ValidatedTextField
+              id={"firstName"}
+              label={"First name"}
+              type={"text"}
+              required
+              value={state.user.firstName}
+              {...validationContext}
+            />
 
-      <form>
-        <FormControl
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          <ValidatedTextField
-            id={"firstName"}
-            label={"First name"}
-            type={"text"}
-            required
-            value={state.user.firstName}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"lastName"}
+              label={"Last name"}
+              type={"text"}
+              required
+              value={state.user.lastName}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"lastName"}
-            label={"Last name"}
-            type={"text"}
-            required
-            value={state.user.lastName}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"email"}
+              label={"Email"}
+              type={"email"}
+              required
+              value={state.user.email}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"email"}
-            label={"Email"}
-            type={"email"}
-            required
-            value={state.user.email}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"username"}
+              label={"username"}
+              type={"text"}
+              required
+              value={state.user.username}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"username"}
-            label={"username"}
-            type={"text"}
-            required
-            value={state.user.username}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"password"}
+              label={"Password"}
+              type={"password"}
+              required
+              value={state.user.password}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"password"}
-            label={"Password"}
-            type={"password"}
-            required
-            value={state.user.password}
-            {...validationContext}
-          />
+            <ValidatedTextField
+              id={"confirmedPassword"}
+              label={"Confirm password"}
+              type={"password"}
+              required
+              value={state.user.confirmedPassword}
+              {...validationContext}
+            />
 
-          <ValidatedTextField
-            id={"confirmedPassword"}
-            label={"Confirm password"}
-            type={"password"}
-            required
-            value={state.user.confirmedPassword}
-            {...validationContext}
-          />
-
-          <AddNewButtons onResetClick={onResetClick} onSaveClick={onSaveClick} isFormValid={state.isFormValid} />
-        </FormControl>
-      </form>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "flex-end",
-          position: "fixed",
-          bottom: 10,
-          right: 20,
-          zIndex: 1000,
-        }}
-      >
-        {registrationSuccess && <Alert severity="success">Successfully registered account. Please login now.</Alert>}
+            <AddNewButtons
+              onResetClick={onResetClick}
+              onSaveClick={onSaveClick}
+              isFormValid={state.isFormValid}
+            />
+          </FormControl>
+        </form>
       </Box>
     </Container>
   );

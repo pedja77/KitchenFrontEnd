@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import TableTemplate from "../lib/TableTemplate";
 import { useLoaderData } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -40,9 +40,9 @@ const Ingredients = () => {
   };
 
   return (
-    <>
+    <Box>
       <TableTemplate props={ingredientsTableProps} />
-    </>
+    </Box>
   );
 };
 
