@@ -1,12 +1,5 @@
-import {
-  Box,
-  Container,
-  Divider,
-  FormControl,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Divider, FormControl, MenuItem, Select, Typography } from "@mui/material";
+import { Alert } from "@mui/material";
 import { useFetcher, useLoaderData, useNavigate } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
 import { useEffect, useState } from "react";
@@ -45,39 +38,19 @@ const registrationReducer = (draft, action) => {
     }
     case "validate": {
       if (action.key === "confirmedPassword") {
-        draft.errors[action.key] = ValidationIndex[action.key](
-          draft.user[action.key],
-          draft.user.password
-        );
+        draft.errors[action.key] = ValidationIndex[action.key](draft.user[action.key], draft.user.password);
       } else if (action.key === "username") {
-        draft.errors[action.key] = ValidationIndex[action.key](
-          draft.user[action.key],
-          draft.usernames
-        );
+        draft.errors[action.key] = ValidationIndex[action.key](draft.user[action.key], draft.usernames);
       } else if (action.key === "password") {
-        draft.errors[action.key] = ValidationIndex[action.key](
-          draft.user[action.key],
-          draft.password
-        );
+        draft.errors[action.key] = ValidationIndex[action.key](draft.user[action.key], draft.password);
       } else if (action.key === "firstName") {
-        draft.errors[action.key] = ValidationIndex[action.key](
-          draft.user[action.key],
-          draft.firstName
-        );
+        draft.errors[action.key] = ValidationIndex[action.key](draft.user[action.key], draft.firstName);
       } else if (action.key === "lastName") {
-        draft.errors[action.key] = ValidationIndex[action.key](
-          draft.user[action.key],
-          draft.lastName
-        );
+        draft.errors[action.key] = ValidationIndex[action.key](draft.user[action.key], draft.lastName);
       } else if (action.key === "email") {
-        draft.errors[action.key] = ValidationIndex[action.key](
-          draft.user[action.key],
-          draft.email
-        );
+        draft.errors[action.key] = ValidationIndex[action.key](draft.user[action.key], draft.email);
       } else {
-        draft.errors[action.key] = ValidationIndex[action.key](
-          draft.user[action.key]
-        );
+        draft.errors[action.key] = ValidationIndex[action.key](draft.user[action.key]);
       }
       draft.isFormValid = isFormValid(draft.errors, [
         "firstName",
@@ -95,7 +68,7 @@ const registrationReducer = (draft, action) => {
   }
 };
 
-const UserRegisterForm = ({props}) => {
+const UserRegisterForm = ({ props }) => {
   const nav = useNavigate();
   const fetcher = useFetcher();
   const usernames = useLoaderData();
@@ -134,7 +107,7 @@ const UserRegisterForm = ({props}) => {
   const onResetClick = () =>
     dispatch({
       type: "reset_form",
-      user: structuredClone(newUser)
+      user: structuredClone(newUser),
     });
 
   const onSaveClick = () => {
@@ -143,6 +116,12 @@ const UserRegisterForm = ({props}) => {
       method: "post",
       action: `/register`,
     });
+
+    // Set registration success and start timer for redirection
+    setRegistrationSuccess(true);
+    setTimeout(() => {
+      nav("/");
+    }, 2000); // Redirect after 2 seconds
   };
 
   const validationContext = {
@@ -150,6 +129,8 @@ const UserRegisterForm = ({props}) => {
     generateOnChanged: handleInputChanged,
     state,
   };
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  // Set registration success and start timer for redirection
 
   return (
     <Container
@@ -225,13 +206,22 @@ const UserRegisterForm = ({props}) => {
             {...validationContext}
           />
 
-          <AddNewButtons
-            onResetClick={onResetClick}
-            onSaveClick={onSaveClick}
-            isFormValid={state.isFormValid}
-          />
+          <AddNewButtons onResetClick={onResetClick} onSaveClick={onSaveClick} isFormValid={state.isFormValid} />
         </FormControl>
       </form>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+          position: "fixed",
+          bottom: 10,
+          right: 20,
+          zIndex: 1000,
+        }}
+      >
+        {registrationSuccess && <Alert severity="success">Successfully registered account. Please login now.</Alert>}
+      </Box>
     </Container>
   );
 };
