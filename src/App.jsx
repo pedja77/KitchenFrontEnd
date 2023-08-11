@@ -26,6 +26,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import Close from "@mui/icons-material/Close";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import { ThemeProvider, styled, useTheme, createTheme } from "@mui/material/styles";
 
@@ -190,18 +191,27 @@ function App() {
                   )}
                 </List>
               </Box>
-              <Box sx={{ marginLeft: "auto" }}>
-                <LoginControl safePath="/" defaultPath="/" isInToolbar={true} />
-                {!getUser() && (
-                  <Button
-                    variant="outlined"
-                    // onClick={(e) => {}}
-                    color="secondary"
-                    component={NavLink}
-                    to="/register"
-                  >
-                    Register
-                  </Button>
+              <Box sx={{ marginLeft: "auto", display: "flex", alignItems: "center" }}>
+                {!getUser() ? ( // Only show when user is not logged in
+                  <>
+                    <LoginControl safePath="/" defaultPath="/" isInToolbar={true} />
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      component={NavLink}
+                      to="/register"
+                      sx={{ marginLeft: 1 }}
+                    >
+                      Register
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <AccountCircleIcon sx={{ marginRight: 1 }} />
+                    <Typography variant="body1" sx={{ marginRight: 1 }}>
+                      {user.user}
+                    </Typography>
+                  </>
                 )}
               </Box>
             </Toolbar>
@@ -226,6 +236,7 @@ function App() {
               </IconButton>
             </DrawerHeader>
             <Divider />
+
             {/* <List>
               <ListItem disablePadding>
                 <ListItemButton component={NavLink} to="/subjects">
@@ -246,6 +257,15 @@ function App() {
                 label={isDarkMode ? "Light mode" : "Dark mode"}
               />
             </FormGroup>
+            {user && ( // Changed: Only render if user is logged in
+              <List>
+                <ListItem disablePadding>
+                  <ListItemButton onClick={logout}>
+                    <ListItemText primary="Logout" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            )}
           </Drawer>
           <Main open={openDrawer}>
             <DrawerHeader />
