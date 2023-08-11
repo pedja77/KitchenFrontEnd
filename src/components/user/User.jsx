@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import {
+  redirect,
   useFetcher,
   useLoaderData,
   useLocation,
@@ -103,9 +104,10 @@ const User = ({ props }) => {
     // newRecipe: null,
     isFormValid: true,
   });
-
+  console.log("fetcher.data from User", fetcher.data);
   useEffect(() => {
     if (fetcher.data) {
+      console.log("fetcher.data from User in effect", fetcher.data);
       nav("/admin/users");
     }
   }, [fetcher.data]);
@@ -148,7 +150,7 @@ const User = ({ props }) => {
       user: structuredClone(userData),
     });
 
-  const onDeleteClick = () => {
+  const onDeleteClick = async () => {
     fetcher.submit(
       {},
       {
@@ -156,7 +158,8 @@ const User = ({ props }) => {
         action: `/admin/users/${state.user.id}`,
       }
     );
-    nav("/admin/users");
+
+    // nav("/admin/users", {state: {reload: true}});
   };
 
   const onSaveClick = async () => {
@@ -177,8 +180,8 @@ const User = ({ props }) => {
     removeFn: handleRemoveItem,
     collectionName: "myCookbook",
     editUrl: "/",
-    editBtn: false,
-    deleteBtn: false
+    editBtn: true,
+    deleteBtn: false,
   };
 
   // const addItemProps = {

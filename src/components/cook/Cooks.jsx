@@ -17,10 +17,11 @@ const Cooks = () => {
         removeFn: () => {},
         collectionName: "cooksList",
         editUrl: "/admin/cooks",
+        editBtn: true
       };
 
     return (
-        <Box>
+        <Box sx = {{width: "90vw", margin: "auto"}}>
             {location.pathname === "/admin/cooks" && <TableTemplate props = {cooksTableProps} />}
             <Outlet />
         </Box>

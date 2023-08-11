@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { Outlet, useFetcher, useLoaderData, useLocation, useNavigate, useNavigation } from "react-router-dom";
 import TableTemplate from "../lib/TableTemplate";
+import { getToken } from "../../utils/token";
 
 const Users = () => {
     const usersList = useLoaderData();
@@ -9,12 +10,6 @@ const Users = () => {
     const location = useLocation();
     const fetcher = useFetcher();
     const nav = useNavigate();
-
-    useEffect(() => {
-        if (fetcher.data) {
-          nav("/admin/users");
-        }
-      }, [fetcher.data]);
 
     const handleRemoveItem = (e, item, collection) => {
         fetcher.submit(
@@ -36,10 +31,11 @@ const Users = () => {
         removeFn: handleRemoveItem,
         collectionName: "users",
         editUrl: "/admin/users",
+        editBtn: true,
       };
 
     return (
-        <Box>
+        <Box sx = {{width: "90vw", margin: "auto"}}>
             {location.pathname === "/admin/users" && <TableTemplate props = {usersTableProps} />}
             <Outlet />
         </Box>

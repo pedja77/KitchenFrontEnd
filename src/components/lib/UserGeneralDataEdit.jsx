@@ -13,14 +13,14 @@ const UserGeneralDataEdit = ({ user, validationContext }) => {
       <FormLabel>id: {user.id}</FormLabel>
       <FormLabel sx={{ marginBottom: 2 }}>Username: {user.username}</FormLabel>
       <ValidatedTextField
-        label={"Ime"}
+        label={"First Name"}
         type={"text"}
         id={"firstName"}
         value={user.firstName}
         {...validationContext}
       />
       <ValidatedTextField
-        label="Prezime"
+        label="Last Name"
         type={"text"}
         id={"lastName"}
         value={user.lastName}

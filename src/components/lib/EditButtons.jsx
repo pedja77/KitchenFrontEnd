@@ -1,9 +1,22 @@
-import { Box, Button, Collapse, Dialog, DialogActions, DialogContent, FormGroup } from "@mui/material";
+import {
+  Box,
+  Button,
+  Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  FormGroup,
+} from "@mui/material";
 import { useState } from "react";
 import { getUserRole } from "../../utils/token";
 
-const EditButtons = ({onResetClick, onSaveClick, onDeleteClick, isFormValid}) => {
-    const [isAlertOpen, setIsAlertOpen] = useState(false);
+const EditButtons = ({
+  onResetClick,
+  onSaveClick,
+  onDeleteClick,
+  isFormValid,
+}) => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   return (
     <>
       <Collapse in={isAlertOpen}></Collapse>
@@ -22,21 +35,18 @@ const EditButtons = ({onResetClick, onSaveClick, onDeleteClick, isFormValid}) =>
                 sx={{ marginRight: 1 }}
                 onClick={onResetClick}
               >
-                Otkaži
+                Reset
               </Button>
               <Button
                 variant="outlined"
                 onClick={onSaveClick}
                 disabled={!isFormValid}
               >
-                Sačuvaj
+                Save
               </Button>
             </Box>
-            <Button
-              variant="outlined"
-              onClick={() => setIsAlertOpen(true)}
-            >
-              Obriši
+            <Button variant="outlined" onClick={() => setIsAlertOpen(true)}>
+              Delete
             </Button>
           </>
         )}
@@ -45,17 +55,12 @@ const EditButtons = ({onResetClick, onSaveClick, onDeleteClick, isFormValid}) =>
           open={isAlertOpen}
         >
           <DialogContent>
-            Da li zaista želite da obrišete entitet{" "}
-            iz baze?
+            <pre>This entity will be removed permanently! Proceed anyway?</pre>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={onDeleteClick}
-            >
-              Da
-            </Button>
+            <Button onClick={onDeleteClick}>Yes</Button>
             <Button autoFocus onClick={() => setIsAlertOpen(false)}>
-              Ne
+              No
             </Button>
           </DialogActions>
         </Dialog>
