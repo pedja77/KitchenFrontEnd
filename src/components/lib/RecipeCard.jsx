@@ -1,12 +1,13 @@
-import { AccessTime } from "@mui/icons-material";
-import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Grid, List } from "@mui/material";
+import { AccessTime, PersonPinCircleSharp, Star } from "@mui/icons-material";
+import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Grid, List, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../../utils/token";
 
 
 const RecipeCard = ({props}) => {
     const nav = useNavigate();
-
-    
+   
 
 
     return (
@@ -38,9 +39,7 @@ const RecipeCard = ({props}) => {
                 <CardContent 
                 sx={{display: "flex", flexDirection: "column", 
                 alignItems:"center", backgroundColor: "rgb(224, 94, 43)"}}>
-
-                
-                
+                <Typography>{props["limitingFactors"]}</Typography>
                 
                 </CardContent>
                

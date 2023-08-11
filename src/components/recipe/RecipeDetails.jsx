@@ -47,7 +47,6 @@ import { useEffect, useState } from "react";
              Authorization: "Bearer " + getUser().token
           },
         });
-        // proverimo odgovor koji smo dobili od servera i na osnovu toga odradimo sta zelimo
         if (response.ok) {
           let d = await response.json();
           console.log("Recipe added to user's cookbook");
