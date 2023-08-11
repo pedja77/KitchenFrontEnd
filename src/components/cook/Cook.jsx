@@ -105,7 +105,8 @@ const Cook = ({ props }) => {
 
   useEffect(() => {
     if (fetcher.data) {
-      nav("/admin/users");
+      console.log("fetcher.data from Cook in effect", fetcher.data);
+      nav("/admin/cooks");
     }
   }, [fetcher.data]);
 
@@ -152,20 +153,24 @@ const Cook = ({ props }) => {
       {},
       {
         method: "delete",
-        action: `/admin/users/${state.user.id}`,
+        action: `/admin/cooks/${state.user.id}`,
       }
     );
-    nav("/admin/users");
+    nav("/admin/cooks")
   };
 
   const onSaveClick = async () => {
-    // let s = structuredClone(state.teacher);
-    // s.items = JSON.stringify(state.teacher.subjects);
-    // fetcher.submit(s, {
-    //   method: "put",
-    //   action: `/teachers/${state.teacher.id}`,
-    // });
-    // // nav("/teachers");
+    let cook = {
+      "firstName": state.user.firstName,
+      "lastName": state.user.lastName,
+      "email": state.user.email,
+      "aboutMe": state.user.aboutMe
+    };
+    fetcher.submit(cook, {
+      method: "put",
+      action: `/admin/cooks/${state.user.id}`,
+    });
+    // nav("/teachers");
   };
 
   const recipesTableProps = {

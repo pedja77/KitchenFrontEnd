@@ -21,6 +21,13 @@ const Users = () => {
         );
         nav("/admin/users");
       };
+    
+    // useEffect(() => {
+    //   if(location.state !== null && location.state.reload){
+    //    console.log("fetching rim useEffect", location.state)
+    //     fetcher.load("/admin/users")
+    //   }
+    // }, [location])
 
     // Ne prikazujemo recepte u tabeli, videce se kad se klikne na edit
     const usersTableProps = {

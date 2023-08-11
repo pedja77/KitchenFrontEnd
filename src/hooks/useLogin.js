@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { produce } from "immer";
 import { decodeJwtPayload } from '../utils/token';
+import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const nav = useNavigate();
     return [
       user,
       async (username, password) => {
@@ -31,6 +33,7 @@ export const useLogin = () => {
       () => {
         setUser(null);
         localStorage.removeItem("user");
+        nav("/");
       },
     ];
   };

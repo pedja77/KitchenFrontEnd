@@ -5,7 +5,7 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./components/admin/Dashboard.jsx";
 import { checkResponse } from "./utils/responseChecker.js";
-import { deleteResource, getResource } from "./utils/paths.js";
+import { deleteResource, getResource, postResource, putResource } from "./utils/paths.js";
 import Ingredients from "./components/ingredient/Ingredients.jsx";
 import Cooks from "./components/cook/Cooks.jsx";
 import LimitingFactors from "./components/limiting_factor/LimitingFactors.jsx";
@@ -140,8 +140,16 @@ const router = createBrowserRouter([
                       `${BASE_URI}/register/deleteRegUserFromDB/${params.id}`
                     );
                     checkResponse(response);
-                    // const res = await response.json()
-                    console.log("response data DELETE user", response.status);
+
+                    return response;
+                  } else if (request.method === "PUT") {
+                    const data = Object.fromEntries(await request.formData());
+                    const response = await putResource(
+                      `${BASE_URI}/register/adminUpdateUser/${params.id}`,
+                      data
+                    );
+                    checkResponse(response);
+
                     return response;
                   }
                 },
@@ -182,7 +190,48 @@ const router = createBrowserRouter([
                   const factors = await response2.json();
                   return [cook, factors];
                 },
+                action: async ({ params, request }) => {
+                  if (request.method === "DELETE") {
+                    const response = await deleteResource(
+                      `${BASE_URI}/register/deleteCook/${params.id}`
+                    );
+                    // checkResponse(response);
+
+                    return response;
+                  } else if (request.method === "PUT") {
+                    const data = Object.fromEntries(await request.formData());
+                    const response = await putResource(
+                      `${BASE_URI}/register/updateCook/${params.id}`,
+                      data
+                    );
+                    checkResponse(response);
+
+                    return response;
+                  }
+                },
               },
+              {
+                path: "/admin/cooks/new",
+                element: <UserRegisterForm />,
+                loader: async ({ params }) => {
+                  console.log("Hello from UserRegisterForm loader");
+                  const response = await fetch(`${BASE_URI}/register/allbyUserName`, {
+                    method: "GET",
+                  });
+                  checkResponse(response);
+                  const usernames = await response.json();
+                  console.log("usernames", usernames);
+                  return usernames;
+                },
+                action: async ({params, request}) => {
+                  const data = Object.fromEntries(await request.formData());
+                  const response = postResource(
+                    `${BASE_URI}/register/cook `,
+                    data
+                  );
+                  return response;
+                }
+              }
             ],
           },
           {

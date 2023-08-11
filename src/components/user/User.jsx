@@ -104,7 +104,7 @@ const User = ({ props }) => {
     // newRecipe: null,
     isFormValid: true,
   });
-  console.log("fetcher.data from User", fetcher.data);
+  
   useEffect(() => {
     if (fetcher.data) {
       console.log("fetcher.data from User in effect", fetcher.data);
@@ -160,17 +160,21 @@ const User = ({ props }) => {
       }
     );
 
-    // nav("/admin/users", {state: {reload: true}});
+    nav("/admin/users");
   };
 
   const onSaveClick = async () => {
-    // let s = structuredClone(state.teacher);
+    let user = {
+      "firstName": state.user.firstName,
+      "lastName": state.user.lastName,
+      "email": state.user.email
+    }
     // s.items = JSON.stringify(state.teacher.subjects);
-    // fetcher.submit(s, {
-    //   method: "put",
-    //   action: `/teachers/${state.teacher.id}`,
-    // });
-    // // nav("/teachers");
+    fetcher.submit(user, {
+      method: "put",
+      action: `/admin/users/${state.user.id}`,
+    });
+    // nav("/teachers");
   };
 
   const likedRecipesTableProps = {
