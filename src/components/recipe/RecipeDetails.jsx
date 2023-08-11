@@ -17,27 +17,8 @@ import { useEffect, useState } from "react";
 
         const RecipeDetails = () => {
         const recipe = useLoaderData();
-        const [loggedUser, setLoggedUser] = useState([]);
 
-        if(getUser() !== null) {
-        useEffect(() => {
-            // let ignore = false;
-            const getLoggedUser = async () => {
-            let res = await fetch(`http://localhost:8080/api/v1/project/register/getLoggedInUser/${getUser().user}`, {
-                method: "GET",
-                headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + getUser().token,
-                },
-            });
-            let result = await res.json();
-            console.log(JSON.stringify(result, null, 4));
-                setLoggedUser(result);
-            };
-            getLoggedUser();
-            
-        }, []);
-    }
+       
 
     const addRecipe = async () => {
         let response = await fetch(`http://localhost:8080/api/v1/project/regUser/rec/${recipe.id}`, {
@@ -107,15 +88,15 @@ import { useEffect, useState } from "react";
                         {Object.entries(recipe.nutrition).map(([key, value]) => 
                         <ListItem>{key == "calories" ? `${key}: ${value.toFixed(0)}kCal` : `${key}: ${value.toFixed(1)}g`}</ListItem>)}
                         </List>
-                        {getUser() !== null && loggedUser !== null ? 
-                        <>
+                        
+                        
                         <Typography sx={{ fontWeight: "bold" }}>Contains:</Typography>
                         
                         <List sx={{lineHeight: "5px", color:"white"}}>
                             {recipe.limitingFactors.map(lf => <ListItem>{lf}</ListItem>)}
                             </List>    
-                        </> 
-                        : null }
+                        
+                        
                     </Grid>
                     
                     <Grid container item xs={6} maxWidth="50%" textAlign="center" >
@@ -132,7 +113,6 @@ import { useEffect, useState } from "react";
         </Card>
         <Button variant="outlined" sx={{alignItems:"start", 
         marginLeft:"40px", height:"10%"}} onClick={() => {addRecipe()}}>ADD TO FAVORITES</Button>
-    {console.log(JSON.stringify(loggedUser, null, 4))}
     </Container>
     )
 }
