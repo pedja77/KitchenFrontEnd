@@ -1,6 +1,12 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import TableTemplate from "../lib/TableTemplate";
-import { useFetcher, useLoaderData } from "react-router-dom";
+import {
+  NavLink,
+  Outlet,
+  useFetcher,
+  useLoaderData,
+  useLocation,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getToken } from "../../utils/token";
 
@@ -10,15 +16,14 @@ const Ingredients = () => {
   console.log("ing ", ing);
   const [ingredients, setIngredients] = useState(structuredClone(ing));
   const [newIngredient, setNewIngredient] = useState(null);
+  const location = useLocation();
 
-  const addIngredient = (ing) => {
-    
-
-  }
+  const addIngredient = (ing) => {};
 
   const ingredientsTableProps = {
     tableLabel: "Ingredients",
     tableHeaders: [
+      "Id",
       "Name",
       "Unit",
       "Calories(kcal)",
@@ -30,6 +35,7 @@ const Ingredients = () => {
     ],
     tableData: ingredients,
     tdConfig: [
+      "id",
       "name",
       "unit",
       "calories",
@@ -41,25 +47,22 @@ const Ingredients = () => {
     ],
     removeFn: () => {},
     collectionName: "ingredients",
-    editUrl: "/",
+    editUrl: "/admin/ingredients",
+    editBtn: true,
   };
 
   return (
     <Box>
-      <Stack
-        direction={"row"}
-        spacing={2}
-        marginBottom={2}
-      >
-        <TextField
-          id="outlined-basic"
-          label="New Ingredient"
-          variant="outlined"
-          value={newIngredient}
-        />
-        <Button onClick={addIngredient}>Add Ingredient</Button>
-      </Stack>
-      <TableTemplate props={ingredientsTableProps} />
+      {location.pathname === "/admin/ingredients" && (
+        <Stack spacing={2} marginBottom={2}>
+          <Button component={NavLink} to="/admin/ingredients/new">
+            Add Ingredient
+          </Button>
+
+          <TableTemplate props={ingredientsTableProps} />
+        </Stack>
+      )}
+      <Outlet />
     </Box>
   );
 };

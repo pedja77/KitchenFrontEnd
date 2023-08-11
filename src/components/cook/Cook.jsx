@@ -160,6 +160,7 @@ const Cook = ({ props }) => {
   };
 
   const onSaveClick = async () => {
+    console.log("aboutMe", state.user.aboutMe)
     let cook = {
       "firstName": state.user.firstName,
       "lastName": state.user.lastName,
@@ -252,11 +253,13 @@ const Cook = ({ props }) => {
               >
                 <TextField
                   id="outlined-multiline-static"
+                  name="aboutMe"
                   label="About me"
                   multiline
                   minRows={2}
                   maxRows={10}
-                  defaultValue={state.user.aboutMe}
+                  value={state.user.aboutMe}
+                  onChange={handleInputChanged}
                 />
               </Box>
 

@@ -18,6 +18,8 @@ import Error from "./components/Error.jsx";
 import Cook from "./components/cook/Cook.jsx";
 import User from "./components/user/User.jsx";
 import RecipeDetails from "./components/recipe/RecipeDetails.jsx";
+import Ingredient from "./components/ingredient/Ingredient.jsx";
+import NewIngredient from "./components/ingredient/NewIngredient.jsx";
 
 const BASE_URI = "http://localhost:8080/api/v1/project";
 
@@ -100,6 +102,19 @@ const router = createBrowserRouter([
               console.log("ing", JSON.stringify(ing, null, 4));
               return ing;
             },
+            children: [
+              {
+                element: <Ingredient />,
+                path: "/admin/ingredients/new"
+              },
+              {
+                element: <NewIngredient />,
+                path: "/admin/ingredients/:id",
+                loader: async ({params}) => {
+                  return null;
+                }
+              }
+            ]
           },
           {
             element: <Users />,
