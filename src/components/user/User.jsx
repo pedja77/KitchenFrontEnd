@@ -87,7 +87,7 @@ const userReducer = (draft, action) => {
 const User = ({ props }) => {
   const [userData, allFactors] = useLoaderData();
   const [factors, setFactors] = useState(structuredClone(allFactors));
-  // console.log("userData", props.user);
+  console.log("allFactors", allFactors);
   const fetcher = useFetcher();
   const nav = useNavigate();
   const location = useLocation();
@@ -118,6 +118,7 @@ const User = ({ props }) => {
       item,
       collection,
     });
+    const removedItemId = allFactors.find(e => e.name === item).id;
   };
 
   const handleSetNewOption = (e, v, optionType) => {
