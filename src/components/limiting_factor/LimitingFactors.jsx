@@ -18,9 +18,10 @@ const LimitingFactors = () => {
           "id",
           "name",
         ],
-        removeFn: () => {},
+        removeFn: (e) => {},
         collectionName: "factors",
         editUrl: "/",
+        deleteBtn:true
       };
     
       return (
