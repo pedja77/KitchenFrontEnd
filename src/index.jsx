@@ -5,7 +5,12 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./components/admin/Dashboard.jsx";
 import { checkResponse } from "./utils/responseChecker.js";
-import { deleteResource, getResource, postResource, putResource } from "./utils/paths.js";
+import {
+  deleteResource,
+  getResource,
+  postResource,
+  putResource,
+} from "./utils/paths.js";
 import Ingredients from "./components/ingredient/Ingredients.jsx";
 import Cooks from "./components/cook/Cooks.jsx";
 import LimitingFactors from "./components/limiting_factor/LimitingFactors.jsx";
@@ -105,16 +110,16 @@ const router = createBrowserRouter([
             children: [
               {
                 element: <Ingredient />,
-                path: "/admin/ingredients/new"
+                path: "/admin/ingredients/new",
               },
               {
                 element: <NewIngredient />,
                 path: "/admin/ingredients/:id",
-                loader: async ({params}) => {
+                loader: async ({ params }) => {
                   return null;
-                }
-              }
-            ]
+                },
+              },
+            ],
           },
           {
             element: <Users />,
@@ -230,23 +235,26 @@ const router = createBrowserRouter([
                 element: <UserRegisterForm />,
                 loader: async ({ params }) => {
                   console.log("Hello from UserRegisterForm loader");
-                  const response = await fetch(`${BASE_URI}/register/allbyUserName`, {
-                    method: "GET",
-                  });
+                  const response = await fetch(
+                    `${BASE_URI}/register/allbyUserName`,
+                    {
+                      method: "GET",
+                    }
+                  );
                   checkResponse(response);
                   const usernames = await response.json();
                   console.log("usernames", usernames);
                   return usernames;
                 },
-                action: async ({params, request}) => {
+                action: async ({ params, request }) => {
                   const data = Object.fromEntries(await request.formData());
                   const response = postResource(
                     `${BASE_URI}/register/cook `,
                     data
                   );
                   return response;
-                }
-              }
+                },
+              },
             ],
           },
           {
@@ -260,6 +268,21 @@ const router = createBrowserRouter([
               console.log(JSON.stringify(recipes, null, 4));
               return recipes;
             },
+
+            children: [
+              {
+                path: "admin/recipes/:id",
+                element: <Recipes />,
+                action: async ({ params, request }) => {
+                  const response = await deleteResource(
+                    `${BASE_URI}/recipes/${params.id}`
+                  );
+                  checkResponse(response);
+
+                  return response;
+                },
+              },
+            ],
           },
           {
             element: <LimitingFactors />,
