@@ -1,6 +1,6 @@
 import { Box, Container, Divider, FormControl, MenuItem, Select, Typography } from "@mui/material";
 import { Alert } from "@mui/material";
-import { useFetcher, useLoaderData, useNavigate } from "react-router-dom";
+import { useFetcher, useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
 import { useEffect, useState } from "react";
 import {
@@ -72,6 +72,7 @@ const UserRegisterForm = ({ props }) => {
   const nav = useNavigate();
   const fetcher = useFetcher();
   const usernames = useLoaderData();
+  const location = useLocation();
 
   const [newUser, setNewUser] = useState({
     firstName: "",
@@ -79,7 +80,7 @@ const UserRegisterForm = ({ props }) => {
     email: "",
     password: "",
     confirmedPassword: "",
-    role: "REGULARUSER",
+    role: location.pathname === "/register" ? "REGULARUSER": "COOK",
     username: "",
   });
 
@@ -95,6 +96,8 @@ const UserRegisterForm = ({ props }) => {
   //     nav("/");
   //   }
   // }, [fetcher.data]);
+
+  console.log("Register pathname", location.pathname);
 
   const handleInputChanged = (e) => {
     dispatch({
@@ -114,13 +117,13 @@ const UserRegisterForm = ({ props }) => {
     let s = structuredClone(state.user);
     fetcher.submit(s, {
       method: "post",
-      action: `/register`,
+      action: location.pathname === "/admin/cooks/new" ? "/admin/cooks/new" : "/register",
     });
 
     // Set registration success and start timer for redirection
     setRegistrationSuccess(true);
     setTimeout(() => {
-      nav("/");
+      nav(location.pathname === "/register" ? "/": "/admin/cooks");
     }, 2000); // Redirect after 2 seconds
   };
 

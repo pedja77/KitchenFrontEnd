@@ -1,5 +1,6 @@
 import { Box, Chip, Typography } from "@mui/material";
 import AddItem from "./AddItem";
+import { getUserRole } from "../../utils/token";
 
 const AddDeleteItemsChips = ({
   usersLimitingFactors,
@@ -31,11 +32,17 @@ const AddDeleteItemsChips = ({
             onClick={() => {
               console.log("clicked");
             }}
-            onDelete={(e) => handleRemoveItem(e, factor, "myLimitigFactors")}
+            onDelete={
+              getUserRole() === "ADMINISTRATOR"
+                ? false
+                : (e) => handleRemoveItem(e, factor, "myLimitigFactors")
+            }
           />
         ))}
       </Box>
-      <AddItem addItemProps={addItemProps} />
+      {getUserRole() === "REGULARUSER" && (
+        <AddItem addItemProps={addItemProps} />
+      )}
     </>
   );
 };
