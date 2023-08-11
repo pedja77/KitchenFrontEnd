@@ -34,7 +34,7 @@ const Home = () => {
           getLoggedUser();
           
       }, []);
-  // }
+  }
       const search = (value) => {
     if (value == "") {
       setRecipes(recipes);
