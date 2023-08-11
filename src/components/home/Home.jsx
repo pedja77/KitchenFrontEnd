@@ -14,7 +14,7 @@ const Home = () => {
     const [favRecipes, setFavRecipes] = useState([]);
     const [limFactors, setLimFactors] = useState([]);
 
-    // if(getUser() !== null && getUser().role === "REGULARUSER") {
+    if(getUser() !== null && getUser().role === "REGULARUSER") {
       useEffect(() => {
           // let ignore = false;
           const getLoggedUser = async () => {
@@ -34,7 +34,7 @@ const Home = () => {
           getLoggedUser();
           
       }, []);
-  // }
+  }
  
  
 
